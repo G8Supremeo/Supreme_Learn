@@ -2,13 +2,26 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider } from './context/AppProvider';
 import { PrivateRoute } from './components/PrivateRoute';
+import { Navbar } from './components/Navbar';
+import { ChatbotWidget } from './components/ChatbotWidget';
+import { Login } from './pages/Login';
+import { Dashboard } from './pages/Dashboard';
+import { Catalog } from './pages/Catalog';
+import { CourseDetail } from './pages/CourseDetail';
+import { LessonPlayer } from './pages/LessonPlayer';
 
-// Placeholders for Pages
-const Login = () => <div className="main-content"><h2>Login Page</h2></div>;
-const Dashboard = () => <div className="main-content"><h2>Dashboard</h2></div>;
-const Catalog = () => <div className="main-content"><h2>Course Catalog</h2></div>;
-const CourseDetail = () => <div className="main-content"><h2>Course Detail</h2></div>;
-const LessonPlayer = () => <div className="main-content"><h2>Lesson Player</h2></div>;
+// Layout wrapper for authenticated routes to ensure Navbar and Chatbot widget are displayed
+function AppLayout({ children }) {
+  return (
+    <>
+      <Navbar />
+      <main className="main-content fade-in">
+        {children}
+      </main>
+      <ChatbotWidget />
+    </>
+  );
+}
 
 function App() {
   return (
@@ -19,12 +32,14 @@ function App() {
             {/* Public Route */}
             <Route path="/login" element={<Login />} />
 
-            {/* Protected Routes */}
+            {/* Protected Routes inside AppLayout */}
             <Route
               path="/dashboard"
               element={
                 <PrivateRoute>
-                  <Dashboard />
+                  <AppLayout>
+                    <Dashboard />
+                  </AppLayout>
                 </PrivateRoute>
               }
             />
@@ -33,7 +48,9 @@ function App() {
               path="/catalog"
               element={
                 <PrivateRoute>
-                  <Catalog />
+                  <AppLayout>
+                    <Catalog />
+                  </AppLayout>
                 </PrivateRoute>
               }
             />
@@ -42,7 +59,9 @@ function App() {
               path="/course/:courseId"
               element={
                 <PrivateRoute>
-                  <CourseDetail />
+                  <AppLayout>
+                    <CourseDetail />
+                  </AppLayout>
                 </PrivateRoute>
               }
             />
@@ -51,7 +70,9 @@ function App() {
               path="/course/:courseId/lesson/:lessonId"
               element={
                 <PrivateRoute>
-                  <LessonPlayer />
+                  <AppLayout>
+                    <LessonPlayer />
+                  </AppLayout>
                 </PrivateRoute>
               }
             />
