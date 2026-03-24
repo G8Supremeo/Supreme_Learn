@@ -62,28 +62,7 @@ export function Login() {
       <div className="glass-panel login-panel animate-fade-in">
         <div className="login-header">
           <div className="supreme-logo-wrapper">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" className="brand-icon">
-              <defs>
-                <linearGradient id="markGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#ffb3c6" />
-                  <stop offset="50%" stop-color="#ff4d6d" />
-                  <stop offset="100%" stop-color="#c1121f" />
-                </linearGradient>
-                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="3" result="blur" />
-                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
-              </defs>
-              <rect width="120" height="120" rx="28" fill="#2d111b" />
-              <g transform="translate(15, 15) scale(0.75)" filter="url(#glow)">
-                <path d="M40 90 C 10 90, 10 60, 40 60 C 80 60, 80 30, 50 30 C 20 30, 20 15, 50 15 C 100 15, 100 60, 50 60 C 10 60, 10 105, 50 105 C 80 105, 80 90, 50 90" fill="none" stroke="url(#markGrad)" strokeWidth="12" strokeLinecap="round" />
-                <path d="M 45 45 L 85 45 L 85 85" fill="none" stroke="#ffe5ec" strokeWidth="8" strokeLinejoin="round" strokeLinecap="round" />
-                <path d="M 85 45 L 105 25" fill="none" stroke="#ffe5ec" strokeWidth="8" strokeLinecap="round" />
-                <circle cx="105" cy="25" r="8" fill="#ffb3c6" />
-                <circle cx="45" cy="45" r="6" fill="#ffb3c6" />
-                <circle cx="85" cy="85" r="6" fill="#ffb3c6" />
-              </g>
-            </svg>
+            <img src="/favicon.svg" alt="SuPreMe Learning Logo" className="brand-icon" />
             <div className="supreme-text">
               <span className="logo-su">Su</span>
               <span className="logo-pre">Pre</span>
