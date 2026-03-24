@@ -1,38 +1,85 @@
-import React, { createContext, useContext, useMemo } from 'react';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import { supabase } from '../lib/supabase';
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useLocalStorage('elearning_user', null);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const login = (email) => {
-    // Mock login simulating API response
-    const mockUser = {
-      id: 'usr_' + Math.random().toString(36).substr(2, 9),
+  useEffect(() => {
+    // Check active sessions and sets the user
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user || null);
+      setLoading(false);
+    });
+
+    // Listen for changes on auth state (sign in, sign out, etc.)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user || null);
+        setLoading(false);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const signUp = async (email, password, fullName) => {
+    const { data, error } = await supabase.auth.signUp({
       email,
-      name: email.split('@')[0],
-      avatar: `https://api.dicebear.com/7.x/adventurer/svg?seed=${email}`
-    };
-    setUser(mockUser);
-    return true;
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+          avatar_url: `https://api.dicebear.com/7.x/adventurer/svg?seed=${email}`
+        }
+      }
+    });
+    if (error) throw error;
+    return data;
   };
 
-  const logout = () => {
-    setUser(null);
+  const signIn = async (email, password) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) throw error;
+    return data;
+  };
+
+  const logout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
+  };
+
+  const updateProfile = async (updates) => {
+    const { data, error } = await supabase.auth.updateUser({
+      data: updates
+    });
+    if (error) throw error;
+    setUser(data.user);
+    return data;
   };
 
   const value = useMemo(() => ({
     user,
     isAuthenticated: !!user,
-    login,
-    logout
-  }), [user]);
+    loading,
+    signUp,
+    signIn,
+    logout,
+    updateProfile
+  }), [user, loading]);
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 }
 
-// Hook 3: useAuth
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {

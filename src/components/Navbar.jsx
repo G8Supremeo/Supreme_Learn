@@ -22,7 +22,7 @@ export function Navbar() {
   return (
     <nav className="glass-panel navbar">
       <div className="nav-brand">
-        <span className="logo">✨ RosyLearn</span>
+        <span className="logo">SuPreMeLearn</span>
       </div>
 
       <div className="nav-links">
@@ -40,8 +40,8 @@ export function Navbar() {
           <Sun size={18} className="sun-icon" />
         </button>
         <div className="user-profile">
-          <img src={user.avatar} alt="Avatar" className="avatar" />
-          <span className="user-name">{user.name}</span>
+          <img src={user.user_metadata?.avatar_url || 'https://api.dicebear.com/7.x/adventurer/svg'} alt="Avatar" className="avatar" />
+          <span className="user-name">{user.user_metadata?.full_name || user.email}</span>
         </div>
         <button onClick={handleLogout} className="btn btn-secondary logout-btn">
           <LogOut size={16} /> Logout
