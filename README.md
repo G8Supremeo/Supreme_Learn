@@ -1,4 +1,4 @@
-# RosyLearn - Premium E-Learning Platform
+# SuPreMe Learning - Premium AI E-Learning Platform
 
 A structured, real-world style online learning application built with React, showcasing advanced custom hooks, React Router v6, Context API for state management, and an integrated Mock RAG AI Chatbot. Designed with a premium "Rosy" aesthetic featuring glassmorphism and modern UI/UX patterns.
 
