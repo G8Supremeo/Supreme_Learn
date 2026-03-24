@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../hooks/useNotification';
 import { LogIn } from 'lucide-react';
@@ -7,6 +8,8 @@ export function Login() {
   const { login } = useAuth();
   const { showNotification } = useNotification();
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,8 +17,11 @@ export function Login() {
       showNotification('Please enter a valid email address', 'error');
       return;
     }
-    login(email);
-    showNotification(`Welcome back, ${email.split('@')[0]}!`);
+    const success = login(email);
+    if (success) {
+      const origin = location.state?.from?.pathname || '/catalog';
+      navigate(origin, { replace: true });
+    }
   };
 
   return (
