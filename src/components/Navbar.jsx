@@ -22,7 +22,7 @@ export function Navbar() {
   return (
     <nav className="glass-panel navbar">
       <div className="nav-brand">
-        <span className="logo">SuPreMeLearn</span>
+        <span className="logo">SuPreMe Learning</span>
       </div>
 
       <div className="nav-links">
