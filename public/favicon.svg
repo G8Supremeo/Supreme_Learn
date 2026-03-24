@@ -1,11 +1,38 @@
-<svg xmlns="http://www.w3.advantage.com/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="20" fill="#1a0b12"/>
-  <text x="50" y="55" font-family="'Outfit', sans-serif, Arial" font-size="44" font-weight="800" text-anchor="middle" dominant-baseline="central">
-    <tspan fill="#ffe5ec" letter-spacing="-2">Su</tspan>
-    <tspan fill="#ff4d6d">Pre</tspan>
-    <tspan fill="#ffb3c6" font-size="34">Me</tspan>
-  </text>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@800&amp;display=swap');
-  </style>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <!-- Dark deep space background gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2d111b" />
+      <stop offset="100%" stop-color="#120509" />
+    </linearGradient>
+
+    <!-- Glowing rosy tech gradient for the logo mark -->
+    <linearGradient id="markGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffb3c6" />
+      <stop offset="50%" stop-color="#ff4d6d" />
+      <stop offset="100%" stop-color="#c1121f" />
+    </linearGradient>
+
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <rect width="120" height="120" rx="28" fill="url(#bgGrad)" />
+
+  <g transform="translate(15, 15) scale(0.75)" filter="url(#glow)">
+    <!-- Continuous S-loop representing "Supreme" and Endless Learning -->
+    <path d="M40 90 C 10 90, 10 60, 40 60 C 80 60, 80 30, 50 30 C 20 30, 20 15, 50 15 C 100 15, 100 60, 50 60 C 10 60, 10 105, 50 105 C 80 105, 80 90, 50 90" 
+          fill="none" stroke="url(#markGrad)" stroke-width="12" stroke-linecap="round" />
+          
+    <!-- Ascending "L" graph node representing "Learning" and AI Architecture -->
+    <path d="M 45 45 L 85 45 L 85 85" fill="none" stroke="#ffe5ec" stroke-width="8" stroke-linejoin="round" stroke-linecap="round" />
+    <path d="M 85 45 L 105 25" fill="none" stroke="#ffe5ec" stroke-width="8" stroke-linecap="round" />
+    
+    <!-- Neural Nodes -->
+    <circle cx="105" cy="25" r="8" fill="#ffb3c6" />
+    <circle cx="45" cy="45" r="6" fill="#ffb3c6" />
+    <circle cx="85" cy="85" r="6" fill="#ffb3c6" />
+  </g>
 </svg>
