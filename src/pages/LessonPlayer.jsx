@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Navigate, NavLink } from 'react-router-dom';
 import { useCourses } from '../context/CourseContext';
 import { useProgress } from '../context/ProgressContext';
 import { ProgressBar } from '../components/ProgressBar';
-import { CheckCircle, Circle, PlayCircle, ArrowLeft } from 'lucide-react';
+import { QuizWidget } from '../components/QuizWidget';
+import { CheckCircle, Circle, ArrowLeft, Tv } from 'lucide-react';
+
+// Simple Markdown Renderer for the Reading Material
+const MarkdownText = ({ text }) => {
+  if (!text) return null;
+  // Naive rendering for simple bold/lists/headers defined in mockData
+  const htmlRows = text.split('\n').map((line, idx) => {
+    let fmt = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    if (fmt.startsWith('### ')) return <h3 key={idx}>{fmt.replace('###', '')}</h3>;
+    if (fmt.startsWith('- ')) return <li key={idx} style={{marginLeft: '1.5rem', marginBottom: '0.5rem'}} dangerouslySetInnerHTML={{__html: fmt.replace('-', '• ')}} />;
+    if (fmt.startsWith('1. ') || fmt.startsWith('2. ') || fmt.startsWith('3. ')) {
+      return <li key={idx} style={{marginLeft: '1.5rem', marginBottom: '0.5rem'}} dangerouslySetInnerHTML={{__html: fmt}} />;
+    }
+    if (fmt.trim() === '') return <br key={idx} />;
+    return <p key={idx} dangerouslySetInnerHTML={{__html: fmt}} style={{marginBottom: '1rem', lineHeight: '1.6'}} />;
+  });
+  return <div className="markdown-content">{htmlRows}</div>;
+};
 
 export function LessonPlayer() {
   const { courseId, lessonId } = useParams();
@@ -21,6 +39,10 @@ export function LessonPlayer() {
   const lesson = course.lessons[currentLessonIndex];
   const isCompleted = isLessonCompleted(courseId, lessonId);
   const progress = getCourseProgressPercentage(courseId);
+
+  const handleQuizPass = () => {
+    if (!isCompleted) markLessonComplete(courseId, lessonId);
+  };
 
   return (
     <div className="lesson-player-layout animate-fade-in">
@@ -58,39 +80,55 @@ export function LessonPlayer() {
       {/* Main Player */}
       <section className="player-content">
         <div className="video-container glass-panel">
-          {/* Mock Video Element using HTML5 Video wrapper */}
+          
           <div className="video-wrapper">
-            <video 
-              key={lesson.id} 
-              controls 
-              poster={course.thumbnail}
-            >
-              <source src={lesson.videoUrl} type="video/mp4" />
-              Your browser does not support HTML5 video.
-            </video>
+            {lesson.videoId ? (
+              <iframe 
+                src={`https://www.youtube.com/embed/${lesson.videoId}?rel=0`}
+                title={lesson.title}
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+              ></iframe>
+            ) : (
+              <div className="no-video">
+                <Tv size={48} />
+                <p>No video available for this lesson.</p>
+              </div>
+            )}
           </div>
           
           <div className="video-info">
             <div className="video-meta">
               <h1>{lesson.title}</h1>
-              <span className="duration"><PlayCircle size={16} /> {lesson.duration}</span>
             </div>
-            
-            <button 
-              className={`btn ${isCompleted ? 'btn-secondary' : 'btn-primary'} complete-btn`}
-              onClick={() => markLessonComplete(courseId, lessonId)}
-              disabled={isCompleted}
-            >
-              <CheckCircle size={18} />
-              {isCompleted ? 'Completed' : 'Mark as Complete'}
-            </button>
+            {/* If there's NO quiz, allow manual complete. Else, they must pass the quiz. */}
+            {!lesson.quiz && (
+              <button 
+                className={`btn ${isCompleted ? 'btn-secondary' : 'btn-primary'} complete-btn`}
+                onClick={() => markLessonComplete(courseId, lessonId)}
+                disabled={isCompleted}
+              >
+                <CheckCircle size={18} />
+                {isCompleted ? 'Completed' : 'Mark as Complete'}
+              </button>
+            )}
+            {lesson.quiz && isCompleted && (
+              <span className="badge success-badge"><CheckCircle size={14}/> Verified Status</span>
+            )}
           </div>
         </div>
 
         <div className="lesson-notes glass-panel">
-          <h3>Lesson Resources</h3>
-          <p>This is where you can write notes or view supplementary materials for: <strong>{lesson.title}</strong>.</p>
-          <p>To take advantage of your AI learning tutor, try clicking the chat bubble in the bottom right and asking a question grounded in this concept!</p>
+          <h2>Reading Materials & Notes</h2>
+          <div className="reading-material-box">
+            <MarkdownText text={lesson.readingMaterial} />
+          </div>
+          <hr className="divider" />
+          
+          {lesson.quiz && (
+            <QuizWidget quiz={lesson.quiz} onPass={handleQuizPass} />
+          )}
         </div>
       </section>
 
@@ -187,12 +225,22 @@ export function LessonPlayer() {
         .video-wrapper {
           width: 100%;
           aspect-ratio: 16 / 9;
-          background: #000;
+          background: #0b0508;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
-        video {
+        iframe {
           width: 100%;
           height: 100%;
           outline: none;
+        }
+        .no-video {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1rem;
+          color: var(--text-secondary);
         }
         .video-info {
           padding: 1.5rem 2rem;
@@ -203,16 +251,9 @@ export function LessonPlayer() {
           gap: 1rem;
         }
         .video-meta h1 {
-          font-size: 1.5rem;
+          font-size: 2rem;
           color: var(--text-primary);
           margin-bottom: 0.2rem;
-        }
-        .duration {
-          display: flex;
-          align-items: center;
-          gap: 0.4rem;
-          color: var(--text-secondary);
-          font-size: 0.9rem;
         }
         .complete-btn {
           min-width: 200px;
@@ -224,17 +265,39 @@ export function LessonPlayer() {
           cursor: default;
           box-shadow: none;
         }
+        .success-badge {
+          background: rgba(45, 106, 79, 0.1);
+          color: var(--success);
+          padding: 0.5rem 1rem;
+          border-radius: 99px;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          font-weight: 600;
+        }
         .lesson-notes {
-          padding: 2rem;
+          padding: 2.5rem;
         }
-        .lesson-notes h3 {
-          margin-bottom: 1rem;
+        .lesson-notes h2 {
           color: var(--accent-primary);
+          font-size: 1.8rem;
+          margin-bottom: 1.5rem;
         }
-        .lesson-notes p {
+        .reading-material-box {
+          font-size: 1.05rem;
           color: var(--text-secondary);
-          line-height: 1.6;
-          margin-bottom: 0.5rem;
+        }
+        .markdown-content h3 {
+          color: var(--text-primary);
+          margin-top: 1.5rem;
+          margin-bottom: 0.75rem;
+          font-size: 1.3rem;
+        }
+        .divider {
+          border: none;
+          height: 1px;
+          background: var(--glass-border);
+          margin: 2.5rem 0;
         }
       `}</style>
     </div>
