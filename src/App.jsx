@@ -9,6 +9,7 @@ import { Dashboard } from './pages/Dashboard';
 import { Catalog } from './pages/Catalog';
 import { CourseDetail } from './pages/CourseDetail';
 import { Profile } from './pages/Profile';
+import { LessonPlayer } from './pages/LessonPlayer';
 
 // Layout wrapper for authenticated routes to ensure Navbar and Chatbot widget are displayed
 function AppLayout({ children }) {
