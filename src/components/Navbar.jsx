@@ -4,12 +4,16 @@ import { useAuth } from '../context/AuthContext';
 import { LogOut, BookOpen, LayoutDashboard, Moon, Sun } from 'lucide-react';
 
 export function Navbar() {
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, signOut } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      navigate('/login');
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const toggleTheme = () => {
@@ -59,6 +63,21 @@ export function Navbar() {
           position: sticky;
           top: 1rem;
           z-index: 100;
+          background: rgba(255, 255, 255, 0.75);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border-radius: 16px;
+          border: 1px solid rgba(0,0,0,0.05);
+        }
+        .navbar-brand {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          text-decoration: none;
+        }
+        .navbar-logo {
+          height: 38px;
+          width: 38px;
         }
         .logo {
           font-weight: 700;

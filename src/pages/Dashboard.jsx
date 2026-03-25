@@ -14,6 +14,8 @@ export function Dashboard() {
 
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(user?.user_metadata?.full_name || '');
+  const [editPhone, setEditPhone] = useState(user?.user_metadata?.phone || '');
+  const [editAvatar, setEditAvatar] = useState(user?.user_metadata?.avatar_url || '');
   const [isSaving, setIsSaving] = useState(false);
 
   const enrolledCourses = courses.filter(course => isEnrolled(course.id));
@@ -25,7 +27,11 @@ export function Dashboard() {
     }
     try {
       setIsSaving(true);
-      await updateProfile({ full_name: editName });
+      await updateProfile({ 
+        full_name: editName,
+        phone: editPhone,
+        avatar_url: editAvatar || `https://api.dicebear.com/7.x/adventurer/svg?seed=${user?.email}`
+      });
       setIsEditing(false);
       showNotification('Profile updated successfully!', 'success');
     } catch (error) {
@@ -43,33 +49,63 @@ export function Dashboard() {
           <div className="welcome">
             {isEditing ? (
               <div className="edit-form animate-fade-in">
-                <input 
-                  type="text" 
-                  value={editName} 
-                  onChange={e => setEditName(e.target.value)} 
-                  className="edit-input"
-                  disabled={isSaving}
-                  autoFocus
-                />
+                <div className="form-group">
+                  <label className="edit-label">Full Name</label>
+                  <input 
+                    type="text" 
+                    value={editName} 
+                    onChange={e => setEditName(e.target.value)} 
+                    className="edit-input"
+                    disabled={isSaving}
+                    autoFocus
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="edit-label">Phone Number</label>
+                  <input 
+                    type="tel" 
+                    value={editPhone} 
+                    onChange={e => setEditPhone(e.target.value)} 
+                    className="edit-input"
+                    placeholder="+1 234 567 8900"
+                    disabled={isSaving}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="edit-label">Profile Picture URL</label>
+                  <input 
+                    type="url" 
+                    value={editAvatar} 
+                    onChange={e => setEditAvatar(e.target.value)} 
+                    className="edit-input"
+                    placeholder="https://example.com/avatar.png"
+                    disabled={isSaving}
+                  />
+                </div>
                 <div className="edit-actions">
                   <button onClick={handleSaveProfile} className="btn btn-primary btn-sm" disabled={isSaving}>
-                    <Save size={14} /> {isSaving ? 'Saving...' : 'Save'}
+                    <Save size={14} /> {isSaving ? 'Saving...' : 'Save Changes'}
                   </button>
-                  <button onClick={() => setIsEditing(false)} className="icon-btn-close" disabled={isSaving}>
-                    <X size={18} />
+                  <button onClick={() => setIsEditing(false)} className="btn btn-secondary btn-sm" style={{display: 'flex', gap: '6px', alignItems: 'center'}} disabled={isSaving}>
+                    <X size={14} /> Cancel
                   </button>
                 </div>
               </div>
             ) : (
               <div className="name-display">
-                <h1>Welcome back, {user?.user_metadata?.full_name}!</h1>
+                <h1>Welcome back, {user?.user_metadata?.full_name || 'Student'}!</h1>
                 <button onClick={() => setIsEditing(true)} className="edit-btn" title="Edit Profile">
                   <Edit2 size={16} /> Edit
                 </button>
               </div>
             )}
-            <p className="dash-email">{user?.email}</p>
-            <p>Pick up where you left off and keep leveling up.</p>
+            {!isEditing && (
+              <div className="user-details">
+                <p className="dash-email">📧 {user?.email}</p>
+                {user?.user_metadata?.phone && <p className="dash-phone">📞 {user.user_metadata.phone}</p>}
+                <p className="dash-motto">Pick up where you left off and keep leveling up.</p>
+              </div>
+            )}
           </div>
         </div>
         
@@ -174,39 +210,66 @@ export function Dashboard() {
         }
         .edit-form {
           display: flex;
-          align-items: center;
+          flex-direction: column;
           gap: 1rem;
-          margin-bottom: 0.2rem;
+          margin-bottom: 1rem;
+          background: rgba(255, 255, 255, 0.4);
+          padding: 1.5rem;
+          border-radius: 16px;
+          border: 1px solid rgba(0,0,0,0.05);
+          width: 100%;
+          max-width: 450px;
+        }
+        .form-group {
+          display: flex;
+          flex-direction: column;
+          gap: 0.4rem;
+        }
+        .edit-label {
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: var(--text-secondary);
         }
         .edit-input {
-          font-size: 1.5rem;
-          font-weight: 700;
-          padding: 0.5rem 1rem;
+          font-size: 1rem;
+          font-weight: 500;
+          padding: 0.75rem 1rem;
           border-radius: 8px;
-          border: 1px solid var(--accent-primary);
-          background: var(--card-bg);
+          border: 1px solid rgba(0,0,0,0.1);
+          background: #ffffff;
           color: var(--text-primary);
           outline: none;
-          width: 300px;
+          transition: all 0.2s;
+        }
+        .edit-input:focus {
+          border-color: var(--accent-primary);
+          box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.15);
         }
         .edit-actions {
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.75rem;
+          margin-top: 0.5rem;
         }
         .btn-sm {
           padding: 0.5rem 1rem;
           font-size: 0.85rem;
         }
-        .dash-email {
+        .user-details {
+          margin-top: 0.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.4rem;
+        }
+        .dash-email, .dash-phone, .dash-motto {
           color: var(--text-secondary);
           font-size: 0.95rem;
-          margin-bottom: 0.5rem;
-          opacity: 0.8;
+          margin: 0;
         }
-        .welcome p {
-          color: var(--text-secondary);
-          font-size: 1.1rem;
+        .dash-motto {
+          margin-top: 0.5rem;
+          color: var(--text-primary);
+          opacity: 0.8;
         }
         .stats {
           display: flex;
