@@ -6,7 +6,7 @@ import { LogIn, UserPlus } from 'lucide-react';
 
 export function Login() {
   const { signIn, signUp, isAuthenticated } = useAuth();
-  const { showNotification } = useNotification();
+  const { showNotification, notification } = useNotification();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -73,6 +73,12 @@ export function Login() {
           <h1>{isSignUP ? 'Create an Account' : 'Welcome Back'}</h1>
           <p>{isSignUP ? 'Join our elite AI landscape platform' : 'Sign in to jump back into your ML courses'}</p>
         </div>
+
+        {notification && (
+          <div className={`auth-alert ${notification.type === 'error' ? 'alert-danger' : 'alert-success'}`}>
+            {notification.message}
+          </div>
+        )}
         
         <form onSubmit={handleSubmit} className="login-form">
           {isSignUP && (
@@ -207,6 +213,23 @@ export function Login() {
           text-align: center;
           font-size: 0.9rem;
           color: var(--text-secondary);
+        }
+        .auth-alert {
+          padding: 1rem;
+          border-radius: 8px;
+          text-align: center;
+          font-weight: 500;
+          font-size: 0.95rem;
+        }
+        .alert-danger {
+          background: rgba(255, 77, 109, 0.1);
+          color: #ff4d6d;
+          border: 1px solid rgba(255, 77, 109, 0.2);
+        }
+        .alert-success {
+          background: rgba(45, 106, 79, 0.1);
+          color: #2d6a4f;
+          border: 1px solid rgba(45, 106, 79, 0.2);
         }
         .text-btn {
           background: none;
