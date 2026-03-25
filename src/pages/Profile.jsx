@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../hooks/useNotification';
-import { Save } from 'lucide-react';
+import { Save, UserCircle2 } from 'lucide-react';
+
+const AVATAR_OPTIONS = [
+  { id: 'visionary', name: 'Visionary', url: 'https://api.dicebear.com/7.x/micah/svg?seed=Elon&backgroundColor=b6e3f4' },
+  { id: 'pioneer', name: 'Pioneer', url: 'https://api.dicebear.com/7.x/micah/svg?seed=Ada&backgroundColor=ffdfbf' },
+  { id: 'founder', name: 'Founder', url: 'https://api.dicebear.com/7.x/micah/svg?seed=Sam&backgroundColor=c0aede' },
+  { id: 'scientist', name: 'Scientist', url: 'https://api.dicebear.com/7.x/micah/svg?seed=Yann&backgroundColor=d1d4f9' },
+  { id: 'professor', name: 'Professor', url: 'https://api.dicebear.com/7.x/micah/svg?seed=Andrew&backgroundColor=ffd5dc' },
+  { id: 'genius', name: 'Genius', url: 'https://api.dicebear.com/7.x/micah/svg?seed=Alan&backgroundColor=b6e3f4' },
+];
 
 export function Profile() {
   const { user, updateProfile } = useAuth();
@@ -65,7 +74,23 @@ export function Profile() {
             />
           </div>
           <div className="form-group">
-            <label className="input-label">Profile Picture URL</label>
+            <label className="input-label">Choose an Avatar</label>
+            <div className="avatar-selection-grid">
+              {AVATAR_OPTIONS.map(avatar => (
+                <div 
+                  key={avatar.id} 
+                  className={`avatar-option ${editAvatar === avatar.url ? 'selected' : ''}`}
+                  onClick={() => setEditAvatar(avatar.url)}
+                  title={avatar.name}
+                >
+                  <img src={avatar.url} alt={avatar.name} />
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="form-group">
+            <label className="input-label">Or Custom URL</label>
             <input 
               type="url" 
               value={editAvatar} 
@@ -157,7 +182,7 @@ export function Profile() {
           box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.15);
         }
         .form-actions {
-          margin-top: 1rem;
+          margin-top: 1.5rem;
         }
         .save-btn {
           width: 100%;
@@ -168,6 +193,42 @@ export function Profile() {
           height: 48px;
           border-radius: 12px;
           font-size: 1rem;
+        }
+        
+        /* Avatar Grid CSS */
+        .avatar-selection-grid {
+          display: grid;
+          grid-template-columns: repeat(6, 1fr);
+          gap: 0.75rem;
+          margin-top: 0.25rem;
+        }
+        .avatar-option {
+          cursor: pointer;
+          border-radius: 50%;
+          padding: 3px;
+          border: 2px solid transparent;
+          transition: all 0.2s ease;
+          background: #fff;
+        }
+        .avatar-option img {
+          width: 100%;
+          border-radius: 50%;
+          display: block;
+        }
+        .avatar-option:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .avatar-option.selected {
+          border-color: var(--accent-primary);
+          box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.2);
+          transform: scale(1.05);
+        }
+        
+        @media (max-width: 600px) {
+          .avatar-selection-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
         }
       `}</style>
     </div>
