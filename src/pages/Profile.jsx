@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../hooks/useNotification';
-import { Save, UserCircle2 } from 'lucide-react';
+import { Save } from 'lucide-react';
 
 const AVATAR_OPTIONS = [
   { id: 'visionary', name: 'Visionary', url: 'https://api.dicebear.com/7.x/micah/svg?seed=Elon&backgroundColor=b6e3f4' },
