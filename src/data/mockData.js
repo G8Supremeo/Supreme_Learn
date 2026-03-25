@@ -12,7 +12,7 @@ export const INITIAL_COURSES = [
         id: 'l1.1', 
         title: 'Introduction to Autonomous AI Agents', 
         duration: '42m', 
-        videoId: 'sPBcm2zI75w', 
+        videoId: 'zjkBMFhNj_g', 
         readingMaterial: `
 ### What defines an Agent?
 An LLM alone acts as a passive completion engine—it receives a prompt and returns an answer. An **AI Agent** is an LLM instantiated with three critical capabilities:
@@ -36,7 +36,7 @@ ReAct is a prompting paradigm where the agent is instructed to format its output
         id: 'l1.2', 
         title: 'State of the Art Retrieval-Augmented Generation (RAG)', 
         duration: '55m', 
-        videoId: 'T-D1OfcDW1M', 
+        videoId: 'bZQun8Y4L2A', 
         readingMaterial: `
 ### Core Components of Advanced RAG
 Standard RAG pipelines can be brittle. Advanced RAG introduces:
@@ -57,7 +57,7 @@ Implementing these steps prevents generative hallucinations and guarantees your 
         id: 'l1.3', 
         title: 'Multi-Agent Orchestration architectures', 
         duration: '48m', 
-        videoId: 'sal78ACtGTc',
+        videoId: 'eMlx5fFNoYc',
         readingMaterial: `
 ### Why Multi-Agent?
 Single monolithic agents try to do everything and often get confused. The solution is **Multi-Agent Systems** (e.g., AutoGen, CrewAI).
@@ -95,7 +95,7 @@ By giving specific personas to specific agents, we can dramatically reduce error
         id: 'l2.1', 
         title: 'Building CI/CD Pipelines for ML', 
         duration: '38m', 
-        videoId: 'nJ-a6G6oFyw', 
+        videoId: 'aircAruvnKk', 
         readingMaterial: `
 ### CI/CD in Machine Learning
 Unlike standard software engineering where code is the only variable, ML has three moving axes:
@@ -116,7 +116,7 @@ Unlike standard software engineering where code is the only variable, ML has thr
         id: 'l2.2', 
         title: 'Experiment Tracking with MLFlow', 
         duration: '40m', 
-        videoId: 'A_Kx2cRjH4Q', 
+        videoId: 'IHZwWFHWa-w', 
         readingMaterial: `
 ### Mastering the MLFlow Lifecycle
 MLFlow provides a central dashboard for tracking hyperparameter tuning.
@@ -137,7 +137,7 @@ MLFlow provides a central dashboard for tracking hyperparameter tuning.
         id: 'l2.3', 
         title: 'Data Drift and Monitoring', 
         duration: '32m', 
-        videoId: 'tB1wK_yTfBQ', 
+        videoId: 'Ilg3gGewQ5U', 
         readingMaterial: `
 ### Concept Drift vs Data Drift
 - **Data Drift:** The statistical properties of the input features (X) change over time (e.g., users get younger).
@@ -166,7 +166,7 @@ Monitoring distributions using distances like the Kolmogorov-Smirnov test ensure
         id: 'l3.1', 
         title: 'Parameter-Efficient Fine-Tuning (PEFT)', 
         duration: '50m', 
-        videoId: 'eC6Hd1hFvos', 
+        videoId: 'kCc8FmEb1nY', 
         readingMaterial: `
 ### The Cost of Full Finetuning
 Fine-tuning a 70B parameter model identically updates all 70 billion weights, which requires massive clusters of A100 GPUs. 
@@ -188,7 +188,7 @@ LoRA solves this by freezing the original weights and injecting trainable rank-d
         id: 'l3.2', 
         title: 'RLHF vs DPO Alignment', 
         duration: '45m', 
-        videoId: 'dG_S_B-yJUU', 
+        videoId: '9-Jl0dxWQs8', 
         readingMaterial: `
 ### Direct Preference Optimization (DPO)
 Reinforcement Learning from Human Feedback (RLHF) requires training a separate Reward Model, making it incredibly complex and brittle.
@@ -221,7 +221,7 @@ This makes aligning instruction-following models exponentially faster and mathem
         id: 'l4.1', 
         title: 'Generative Adversarial Setup', 
         duration: '28m', 
-        videoId: '8L11aMN5KY8', 
+        videoId: '5t1vTLU7s40', 
         readingMaterial: `
 ### The Adversarial Game
 GANs consist of two conflicting networks learning simultaneously:
@@ -244,7 +244,7 @@ As the Generator gradients update to trick the Discriminator, the output becomes
         id: 'l4.2', 
         title: 'Diffusion Models vs GANs', 
         duration: '52m', 
-        videoId: 'yTAMrHVG1ew', 
+        videoId: '0jspaMLxBig', 
         readingMaterial: `
 ### Why Diffusion replaced GANs
 While GANs generate incredibly sharp images, they suffer from **Mode Collapse**—where the Generator learns one specific trick to fool the discriminator and endlessly produces the exact same image.

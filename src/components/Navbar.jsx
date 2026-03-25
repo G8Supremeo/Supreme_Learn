@@ -21,9 +21,10 @@ export function Navbar() {
 
   return (
     <nav className="glass-panel navbar">
-      <div className="nav-brand">
-        <span className="logo">SuPreMe Learning</span>
-      </div>
+      <Link to="/" className="navbar-brand">
+        <img src="/favicon.svg" alt="Logo" className="navbar-logo" />
+        <span className="logo">SuPreMe University</span>
+      </Link>
 
       <div className="nav-links">
         <NavLink to="/catalog" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>
