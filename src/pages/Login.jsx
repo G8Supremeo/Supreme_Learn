@@ -5,7 +5,7 @@ import { useNotification } from '../hooks/useNotification';
 import { LogIn, UserPlus } from 'lucide-react';
 
 export function Login() {
-  const { signIn, signUp, isAuthenticated } = useAuth();
+  const { signIn, signUp, signInWithGoogle, isAuthenticated } = useAuth();
   const { showNotification, notification } = useNotification();
   const navigate = useNavigate();
   const location = useLocation();
