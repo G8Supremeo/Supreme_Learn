@@ -8,7 +8,7 @@ import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
 import { Catalog } from './pages/Catalog';
 import { CourseDetail } from './pages/CourseDetail';
-import { LessonPlayer } from './pages/LessonPlayer';
+import { Profile } from './pages/Profile';
 
 // Layout wrapper for authenticated routes to ensure Navbar and Chatbot widget are displayed
 function AppLayout({ children }) {
@@ -39,6 +39,17 @@ function App() {
                 <PrivateRoute>
                   <AppLayout>
                     <Dashboard />
+                  </AppLayout>
+                </PrivateRoute>
+              }
+            />
+            
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute>
+                  <AppLayout>
+                    <Profile />
                   </AppLayout>
                 </PrivateRoute>
               }

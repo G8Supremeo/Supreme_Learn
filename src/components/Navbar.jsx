@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LogOut, BookOpen, LayoutDashboard, Moon, Sun } from 'lucide-react';
+import { LogOut, BookOpen, LayoutDashboard, Moon, Sun, User } from 'lucide-react';
 
 export function Navbar() {
   const { user, isAuthenticated, signOut } = useAuth();
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -44,13 +56,27 @@ export function Navbar() {
           <Moon size={18} className="moon-icon" />
           <Sun size={18} className="sun-icon" />
         </button>
-        <div className="user-profile">
-          <img src={user.user_metadata?.avatar_url || 'https://api.dicebear.com/7.x/adventurer/svg'} alt="Avatar" className="avatar" />
-          <span className="user-name">{user.user_metadata?.full_name || user.email}</span>
+        <div className="profile-menu-container" ref={menuRef}>
+          <button 
+            className="user-profile-btn" 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <img src={user.user_metadata?.avatar_url || 'https://api.dicebear.com/7.x/adventurer/svg'} alt="Avatar" className="avatar" />
+            <span className="user-name">{user.user_metadata?.full_name || user.email.split('@')[0]}</span>
+          </button>
+          
+          {isMenuOpen && (
+            <div className="dropdown-menu animate-fade-in">
+              <Link to="/profile" className="dropdown-item" onClick={() => setIsMenuOpen(false)}>
+                <User size={16} /> My Profile
+              </Link>
+              <div className="dropdown-divider"></div>
+              <button onClick={handleLogout} className="dropdown-item logout-item">
+                <LogOut size={16} /> Logout
+              </button>
+            </div>
+          )}
         </div>
-        <button onClick={handleLogout} className="btn btn-secondary logout-btn">
-          <LogOut size={16} /> Logout
-        </button>
       </div>
 
       <style>{`
@@ -104,10 +130,23 @@ export function Navbar() {
           align-items: center;
           gap: 1.5rem;
         }
-        .user-profile {
+        .profile-menu-container {
+          position: relative;
+        }
+        .user-profile-btn {
           display: flex;
           align-items: center;
           gap: 0.75rem;
+          background: transparent;
+          border: 1px solid transparent;
+          padding: 0.25rem 0.5rem;
+          border-radius: 20px;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        .user-profile-btn:hover {
+          background: rgba(0,0,0,0.03);
+          border-color: rgba(0,0,0,0.05);
         }
         .avatar {
           width: 36px;
@@ -118,6 +157,52 @@ export function Navbar() {
         .user-name {
           font-weight: 600;
           color: var(--text-primary);
+        }
+        .dropdown-menu {
+          position: absolute;
+          top: calc(100% + 0.5rem);
+          right: 0;
+          width: 200px;
+          background: var(--card-bg);
+          border: 1px solid var(--glass-border);
+          border-radius: 12px;
+          padding: 0.5rem;
+          box-shadow: 0 10px 24px rgba(0,0,0,0.1);
+          display: flex;
+          flex-direction: column;
+        }
+        .dropdown-item {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.75rem 1rem;
+          color: var(--text-primary);
+          text-decoration: none;
+          font-size: 0.9rem;
+          font-weight: 500;
+          border-radius: 8px;
+          border: none;
+          background: transparent;
+          cursor: pointer;
+          width: 100%;
+          text-align: left;
+          transition: background 0.2s, color 0.2s;
+        }
+        .dropdown-item:hover {
+          background: var(--bg-secondary);
+          color: var(--accent-primary);
+        }
+        .dropdown-divider {
+          height: 1px;
+          background: var(--glass-border);
+          margin: 0.25rem 0;
+        }
+        .logout-item {
+          color: #e5383b;
+        }
+        .logout-item:hover {
+          background: rgba(229,56,59,0.1);
+          color: #e5383b;
         }
         .icon-btn {
           background: none;
