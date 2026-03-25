@@ -8,11 +8,11 @@ export const INITIAL_COURSES = [
     duration: '14h 30m',
     level: 'Advanced',
     lessons: [
-      {
-        id: 'l1.1',
-        title: 'Introduction to Autonomous AI Agents',
-        duration: '42m',
-        videoId: 'sPBcm2zI75w',
+      { 
+        id: 'l1.1', 
+        title: 'Introduction to Autonomous AI Agents', 
+        duration: '42m', 
+        videoId: 'sPBcm2zI75w', 
         readingMaterial: `
 ### What defines an Agent?
 An LLM alone acts as a passive completion engine—it receives a prompt and returns an answer. An **AI Agent** is an LLM instantiated with three critical capabilities:
@@ -32,11 +32,11 @@ ReAct is a prompting paradigm where the agent is instructed to format its output
           correctAnswerIndex: 1
         }
       },
-      {
-        id: 'l1.2',
-        title: 'State of the Art Retrieval-Augmented Generation (RAG)',
-        duration: '55m',
-        videoId: 'T-D1OfcDW1M',
+      { 
+        id: 'l1.2', 
+        title: 'State of the Art Retrieval-Augmented Generation (RAG)', 
+        duration: '55m', 
+        videoId: 'T-D1OfcDW1M', 
         readingMaterial: `
 ### Core Components of Advanced RAG
 Standard RAG pipelines can be brittle. Advanced RAG introduces:
@@ -53,10 +53,10 @@ Implementing these steps prevents generative hallucinations and guarantees your 
           correctAnswerIndex: 2
         }
       },
-      {
-        id: 'l1.3',
-        title: 'Multi-Agent Orchestration architectures',
-        duration: '48m',
+      { 
+        id: 'l1.3', 
+        title: 'Multi-Agent Orchestration architectures', 
+        duration: '48m', 
         videoId: 'sal78ACtGTc',
         readingMaterial: `
 ### Why Multi-Agent?
@@ -91,33 +91,33 @@ By giving specific personas to specific agents, we can dramatically reduce error
     duration: '11h 15m',
     level: 'Advanced',
     lessons: [
-      {
-        id: 'l2.1',
-        title: 'Building CI/CD Pipelines for ML',
-        duration: '38m',
-        videoId: 'nJ-a6G6oFyw',
+      { 
+        id: 'l2.1', 
+        title: 'Building CI/CD Pipelines for ML', 
+        duration: '38m', 
+        videoId: 'nJ-a6G6oFyw', 
         readingMaterial: `
 ### CI/CD in Machine Learning
 Unlike standard software engineering where code is the only variable, ML has three moving axes:
 1. **Code:** Training scripts and infrastructure logic.
 2. **Data:** The underlying dataset distributions.
-3. **Model:** The resulting serialized architecture (e.g., ONNX, PyTorch `pt`).
+3. **Model:** The resulting serialized architecture (e.g., ONNX, PyTorch pt).
 
 **Continuous Integration (CI):** Automating testing for data schemas and unit testing data splits.
 **Continuous Deployment (CD):** Automatically serving models when metrics pass benchmark thresholds against a shadow champion model.
         `,
-      quiz: {
-        question: "Unlike traditional software engineering, MLOps requires managing which three changing axes?",
-        options: ["Frontend, Backend, Database", "Code, Data, Model", "Latency, Throughput, Bandwidth"],
-        correctAnswerIndex: 1
-      }
+        quiz: {
+          question: "Unlike traditional software engineering, MLOps requires managing which three changing axes?",
+          options: ["Frontend, Backend, Database", "Code, Data, Model", "Latency, Throughput, Bandwidth"],
+          correctAnswerIndex: 1
+        }
       },
-  {
-    id: 'l2.2',
-    title: 'Experiment Tracking with MLFlow',
-    duration: '40m',
-    videoId: 'A_Kx2cRjH4Q',
-    readingMaterial: `
+      { 
+        id: 'l2.2', 
+        title: 'Experiment Tracking with MLFlow', 
+        duration: '40m', 
+        videoId: 'A_Kx2cRjH4Q', 
+        readingMaterial: `
 ### Mastering the MLFlow Lifecycle
 MLFlow provides a central dashboard for tracking hyperparameter tuning.
 
@@ -127,102 +127,102 @@ MLFlow provides a central dashboard for tracking hyperparameter tuning.
 - **MLFlow Models:** Format models so they can be seamlessly deployed across Google Cloud Vertex AI, AWS SageMaker, or Azure ML.
 - **Model Registry:** A centralized model store to smoothly transition versions from 'Staging' to 'Production'.
         `,
-    quiz: {
-      question: "Which component acts as a central repository for approving model transitions from 'Staging' to 'Production'?",
-      options: ["MLFlow Tracking", "REST API", "Model Registry"],
-      correctAnswerIndex: 2
-    }
-  },
-  {
-    id: 'l2.3',
-    title: 'Data Drift and Monitoring',
-    duration: '32m',
-    videoId: 'tB1wK_yTfBQ',
-    readingMaterial: `
+        quiz: {
+          question: "Which component acts as a central repository for approving model transitions from 'Staging' to 'Production'?",
+          options: ["MLFlow Tracking", "REST API", "Model Registry"],
+          correctAnswerIndex: 2
+        }
+      },
+      { 
+        id: 'l2.3', 
+        title: 'Data Drift and Monitoring', 
+        duration: '32m', 
+        videoId: 'tB1wK_yTfBQ', 
+        readingMaterial: `
 ### Concept Drift vs Data Drift
 - **Data Drift:** The statistical properties of the input features (X) change over time (e.g., users get younger).
 - **Concept Drift:** The relationship between input (X) and target (y) changes (e.g., the definition of a fraudulent transaction shifts due to new hacker tactics).
 
 Monitoring distributions using distances like the Kolmogorov-Smirnov test ensures models don't silently fail in production.
         `,
-    quiz: {
-      question: "When the statistical properties of the independent input features shift, it is known as:",
-      options: ["Concept Drift", "Memory Leak", "Data Drift"],
-      correctAnswerIndex: 2
-    }
-  }
+        quiz: {
+          question: "When the statistical properties of the independent input features shift, it is known as:",
+          options: ["Concept Drift", "Memory Leak", "Data Drift"],
+          correctAnswerIndex: 2
+        }
+      }
     ]
   },
   {
     id: 'c3',
     title: 'LLM Fine-Tuning & Alignment',
-      description: 'Transform foundational models into domain-specific experts. Learn how to perform Parameter-Efficient Fine-Tuning (PEFT) using LoRA, QLoRA, and RLHF alignment.',
-        thumbnail: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=600',
-          instructor: 'Yann LeCun',
-            duration: '8h 00m',
-              level: 'Expert',
-                lessons: [
-                  {
-                    id: 'l3.1',
-                    title: 'Parameter-Efficient Fine-Tuning (PEFT)',
-                    duration: '50m',
-                    videoId: 'eC6Hd1hFvos',
-                    readingMaterial: `
+    description: 'Transform foundational models into domain-specific experts. Learn how to perform Parameter-Efficient Fine-Tuning (PEFT) using LoRA, QLoRA, and RLHF alignment.',
+    thumbnail: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=600',
+    instructor: 'Yann LeCun',
+    duration: '8h 00m',
+    level: 'Expert',
+    lessons: [
+      { 
+        id: 'l3.1', 
+        title: 'Parameter-Efficient Fine-Tuning (PEFT)', 
+        duration: '50m', 
+        videoId: 'eC6Hd1hFvos', 
+        readingMaterial: `
 ### The Cost of Full Finetuning
 Fine-tuning a 70B parameter model identically updates all 70 billion weights, which requires massive clusters of A100 GPUs. 
 
 ### LoRA (Low-Rank Adaptation)
 LoRA solves this by freezing the original weights and injecting trainable rank-decomposition matrices into the Transformer architecture. This reduces the number of trainable parameters by 10,000x, allowing you to fine-tune Llama 3 on a single consumer GPU!
         `,
-                    quiz: {
-                      question: "How does LoRA drastically reduce the computational hardware required for fine-tuning?",
-                      options: [
-                        "By completely discarding 90% of the transformer layers.",
-                        "By freezing the base model and only training small injected low-rank matrices.",
-                        "By using a smaller dataset."
-                      ],
-                      correctAnswerIndex: 1
-                    }
-                  },
-                  {
-                    id: 'l3.2',
-                    title: 'RLHF vs DPO Alignment',
-                    duration: '45m',
-                    videoId: 'dG_S_B-yJUU',
-                    readingMaterial: `
+        quiz: {
+          question: "How does LoRA drastically reduce the computational hardware required for fine-tuning?",
+          options: [
+            "By completely discarding 90% of the transformer layers.",
+            "By freezing the base model and only training small injected low-rank matrices.",
+            "By using a smaller dataset."
+          ],
+          correctAnswerIndex: 1
+        }
+      },
+      { 
+        id: 'l3.2', 
+        title: 'RLHF vs DPO Alignment', 
+        duration: '45m', 
+        videoId: 'dG_S_B-yJUU', 
+        readingMaterial: `
 ### Direct Preference Optimization (DPO)
 Reinforcement Learning from Human Feedback (RLHF) requires training a separate Reward Model, making it incredibly complex and brittle.
 DPO bypasses the reward model entirely. It treats the language model itself as the reward model, optimizing directly over human preference pairs (Chosen vs Rejected).
 
 This makes aligning instruction-following models exponentially faster and mathematically stable.
         `,
-                    quiz: {
-                      question: "Why is Direct Preference Optimization (DPO) preferred over traditional RLHF?",
-                      options: [
-                        "It requires multiple separate reward models which increases safety.",
-                        "It doesn't require humans to write prompts.",
-                        "It bypasses training a separate reward model, increasing stability and lowering computational overhead."
-                      ],
-                      correctAnswerIndex: 2
-                    }
-                  }
-                ]
-},
-{
-  id: 'c4',
+        quiz: {
+          question: "Why is Direct Preference Optimization (DPO) preferred over traditional RLHF?",
+          options: [
+            "It requires multiple separate reward models which increases safety.",
+            "It doesn't require humans to write prompts.",
+            "It bypasses training a separate reward model, increasing stability and lowering computational overhead."
+          ],
+          correctAnswerIndex: 2
+        }
+      }
+    ]
+  },
+  {
+    id: 'c4',
     title: 'Generative AI & GANs for Video Architecture',
-      description: 'Deep dive into Generative Adversarial Networks and Diffusion architectures. Learn how to generate look-alike pictures, stylized videos, and master deep latent spaces.',
-        thumbnail: 'https://images.unsplash.com/photo-1544256718-3bcf237f3974?auto=format&fit=crop&q=80&w=600',
-          instructor: 'Ian Goodfellow',
-            duration: '9h 45m',
-              level: 'Intermediate',
-                lessons: [
-                  {
-                    id: 'l4.1',
-                    title: 'Generative Adversarial Setup',
-                    duration: '28m',
-                    videoId: '8L11aMN5KY8',
-                    readingMaterial: `
+    description: 'Deep dive into Generative Adversarial Networks and Diffusion architectures. Learn how to generate look-alike pictures, stylized videos, and master deep latent spaces.',
+    thumbnail: 'https://images.unsplash.com/photo-1544256718-3bcf237f3974?auto=format&fit=crop&q=80&w=600',
+    instructor: 'Ian Goodfellow',
+    duration: '9h 45m',
+    level: 'Intermediate',
+    lessons: [
+      { 
+        id: 'l4.1', 
+        title: 'Generative Adversarial Setup', 
+        duration: '28m', 
+        videoId: '8L11aMN5KY8', 
+        readingMaterial: `
 ### The Adversarial Game
 GANs consist of two conflicting networks learning simultaneously:
 1. **The Generator:** Creates fake images from multidimensional random noise.
@@ -230,22 +230,22 @@ GANs consist of two conflicting networks learning simultaneously:
 
 As the Generator gradients update to trick the Discriminator, the output becomes indistinguishable from reality.
         `,
-                    quiz: {
-                      question: "In a GAN, what is the specific role of the Discriminator network?",
-                      options: [
-                        "To generate images from text prompts.",
-                        "To calculate the total parameters of the generator.",
-                        "To determine whether an image is drawn from the real dataset or was artificially generated."
-                      ],
-                      correctAnswerIndex: 2
-                    }
-                  },
-                  {
-                    id: 'l4.2',
-                    title: 'Diffusion Models vs GANs',
-                    duration: '52m',
-                    videoId: 'yTAMrHVG1ew',
-                    readingMaterial: `
+        quiz: {
+          question: "In a GAN, what is the specific role of the Discriminator network?",
+          options: [
+            "To generate images from text prompts.",
+            "To calculate the total parameters of the generator.",
+            "To determine whether an image is drawn from the real dataset or was artificially generated."
+          ],
+          correctAnswerIndex: 2
+        }
+      },
+      { 
+        id: 'l4.2', 
+        title: 'Diffusion Models vs GANs', 
+        duration: '52m', 
+        videoId: 'yTAMrHVG1ew', 
+        readingMaterial: `
 ### Why Diffusion replaced GANs
 While GANs generate incredibly sharp images, they suffer from **Mode Collapse**—where the Generator learns one specific trick to fool the discriminator and endlessly produces the exact same image.
 
@@ -255,16 +255,16 @@ While GANs generate incredibly sharp images, they suffer from **Mode Collapse**�
 
 Diffusion guarantees high diversity across the output latent space.
         `,
-                    quiz: {
-                      question: "Which of the following is a critical flaw commonly associated with GAN training that Diffusion models help solve?",
-                      options: [
-                        "Overfitting",
-                        "Mode Collapse",
-                        "Gradient Boosting"
-                      ],
-                      correctAnswerIndex: 1
-                    }
-                  }
-                ]
-}
+        quiz: {
+          question: "Which of the following is a critical flaw commonly associated with GAN training that Diffusion models help solve?",
+          options: [
+            "Overfitting",
+            "Mode Collapse",
+            "Gradient Boosting"
+          ],
+          correctAnswerIndex: 1
+        }
+      }
+    ]
+  }
 ];
