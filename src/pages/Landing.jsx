@@ -1,8 +1,24 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { BookOpen, BrainCircuit, Rocket, Activity } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export function Landing() {
+  const { isAuthenticated, loading } = useAuth();
+
+  // Prevent flashing the landing page while Supabase checks the session
+  if (loading) {
+    return (
+      <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
+        Authenticating SupreMify Experience...
+      </div>
+    );
+  }
+
+  // Auto-redirect to dashboard if the user is already logged in (e.g., from OAuth redirect loop)
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
   return (
     <div className="landing-container animate-fade-in">
       
