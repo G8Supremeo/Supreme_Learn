@@ -1,34 +1,47 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <defs>
-    <linearGradient id="coreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#0ea5e9" />
       <stop offset="100%" stop-color="#38bdf8" />
     </linearGradient>
-    <linearGradient id="outerGrad" x1="100%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#0ea5e9" />
-      <stop offset="100%" stop-color="#10b981" />
+    <linearGradient id="seafoamGrad" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#34d399" />
     </linearGradient>
   </defs>
-  <style>
-    .spin {
-      transform-origin: 50px 50px;
-      animation: spin-right 8s linear infinite;
-    }
-    .spin-reverse {
-      transform-origin: 50px 50px;
-      animation: spin-left 12s linear infinite;
-    }
-    @keyframes spin-right { 100% { transform: rotate(360deg); } }
-    @keyframes spin-left { 100% { transform: rotate(-360deg); } }
-  </style>
 
-  <!-- Glowing Core Node -->
-  <circle cx="50" cy="50" r="16" fill="url(#coreGrad)" />
-  
-  <!-- Fast Clockwise Inner Orbit -->
-  <circle cx="50" cy="50" r="28" fill="none" stroke="url(#outerGrad)" stroke-width="4" stroke-dasharray="14 10" class="spin"/>
-  
-  <!-- Slow Counter-Clockwise Outer Orbit -->
-  <circle cx="50" cy="50" r="40" fill="none" stroke="url(#coreGrad)" stroke-width="2" stroke-dasharray="30 15 10 15" class="spin-reverse" opacity="0.8"/>
-  
+  <!-- Deep Slate App Container -->
+  <rect width="100" height="100" rx="24" fill="#020617" />
+
+  <!-- The Geometric Fluid Infinity Loop (Scaled and centered) -->
+  <g transform="translate(10, -5) scale(0.8)">
+    <!-- Rotated diagonally for modern tech momentum -->
+    <g transform="rotate(-30 50 50)">
+      <!-- Top-Left Fluid Sweeping Ribbon (Skyblue dominant) -->
+      <path d="M 50 50 C -10 -20, 10 120, 50 50" 
+            fill="url(#skyGrad)" 
+            opacity="0.9" 
+            style="mix-blend-mode: screen;" />
+            
+      <!-- Bottom-Right Fluid Sweeping Ribbon (Seafoam dominant) -->
+      <path d="M 50 50 C 110 120, 90 -20, 50 50" 
+            fill="url(#seafoamGrad)" 
+            opacity="0.9" 
+            style="mix-blend-mode: screen;" />
+            
+      <!-- Central Core Anchor -->
+      <circle cx="50" cy="50" r="6" fill="#ffffff" opacity="0.95" />
+    </g>
+  </g>
+
+  <!-- Base Brand Text -->
+  <text x="50" y="86" 
+        font-family="Outfit, system-ui, sans-serif" 
+        font-weight="700" 
+        font-size="14" 
+        fill="#f8fafc" 
+        text-anchor="middle" 
+        letter-spacing="0.5">
+    Supremify
+  </text>
 </svg>
