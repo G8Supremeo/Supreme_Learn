@@ -193,11 +193,11 @@ export function LessonPlayer() {
           transition: background 0.2s, color 0.2s;
         }
         .playlist-item:hover {
-          background: rgba(255, 77, 109, 0.05);
+          background: rgba(14, 165, 233, 0.05);
           color: var(--text-primary);
         }
         .playlist-item.active {
-          background: rgba(255, 77, 109, 0.1);
+          background: rgba(14, 165, 233, 0.1);
           color: var(--accent-primary);
           border-left: 4px solid var(--accent-primary);
         }

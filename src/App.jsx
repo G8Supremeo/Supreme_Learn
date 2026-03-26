@@ -10,6 +10,7 @@ import { Catalog } from './pages/Catalog';
 import { CourseDetail } from './pages/CourseDetail';
 import { Profile } from './pages/Profile';
 import { LessonPlayer } from './pages/LessonPlayer';
+import { Landing } from './pages/Landing';
 
 // Layout wrapper for authenticated routes to ensure Navbar and Chatbot widget are displayed
 function AppLayout({ children }) {
@@ -90,7 +91,8 @@ function App() {
             />
 
             {/* Default Route */}
-            <Route path="/" element={<Navigate to="/catalog" replace />} />
+            <Route path="/" element={<Landing />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
       </Router>

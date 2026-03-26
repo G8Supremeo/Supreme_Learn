@@ -39,7 +39,7 @@ export function Navbar() {
     <nav className="glass-panel navbar">
       <Link to="/" className="navbar-brand">
         <img src="/favicon.svg" alt="Logo" className="navbar-logo" />
-        <span className="logo">SuPreMe University</span>
+        <span className="logo">SupreMify</span>
       </Link>
 
       <div className="nav-links">

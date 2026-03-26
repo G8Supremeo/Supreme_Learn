@@ -1,41 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Rosy Light Theme Variables */
-  --bg-primary: #fff0f3;
-  --bg-secondary: #ffe5ec;
+  /* Skyblue & Seafoam Light Theme Variables */
+  --bg-primary: #f0f9ff;
+  --bg-secondary: #e0f2fe;
   --glass-bg: rgba(255, 255, 255, 0.6);
-  --glass-border: rgba(255, 204, 213, 0.5);
-  --glass-shadow: 0 8px 32px 0 rgba(255, 143, 163, 0.15);
+  --glass-border: rgba(14, 165, 233, 0.15);
+  --glass-shadow: 0 8px 32px 0 rgba(14, 165, 233, 0.15);
   
-  --text-primary: #590d22;
-  --text-secondary: #800f2f;
+  --text-primary: #082f49;
+  --text-secondary: #0c4a6e;
   
-  --accent-primary: #ff4d6d;
-  --accent-secondary: #c1121f;
-  --accent-hover: #ff758f;
+  --accent-primary: #0ea5e9;
+  --accent-secondary: #10b981;
+  --accent-hover: #38bdf8;
   
-  --success: #2d6a4f;
-  --error: #9b2226;
+  --success: #059669;
+  --error: #e11d48;
   --card-bg: #fff;
 }
 
 [data-theme='dark'] {
-  /* Rosy Dark Theme Variables */
-  --bg-primary: #1a0b12;
-  --bg-secondary: #2d111b;
-  --glass-bg: rgba(45, 17, 27, 0.5);
-  --glass-border: rgba(255, 77, 109, 0.15);
+  /* Skyblue & Seafoam Dark Theme Variables */
+  --bg-primary: #020617;
+  --bg-secondary: #0f172a;
+  --glass-bg: rgba(15, 23, 42, 0.5);
+  --glass-border: rgba(14, 165, 233, 0.15);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
   
-  --text-primary: #ffe5ec;
-  --text-secondary: #ffb3c6;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
   
-  --accent-primary: #ff4d6d;
-  --accent-secondary: #ff8fa3;
-  --accent-hover: #ff758f;
+  --accent-primary: #0ea5e9;
+  --accent-secondary: #10b981;
+  --accent-hover: #38bdf8;
   
-  --card-bg: #4a1526;
+  --card-bg: #1e293b;
 }
 
 * {
@@ -87,12 +87,12 @@ a {
 .btn-primary {
   background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
   color: white;
-  box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 77, 109, 0.4);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
 }
 
 .btn-primary:active {
@@ -137,9 +137,9 @@ a {
 }
 
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.4); }
-  70% { box-shadow: 0 0 0 10px rgba(255, 77, 109, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(14, 165, 233, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
 }
 
 /* Inputs */
@@ -157,7 +157,7 @@ a {
 .input-field:focus {
   outline: none;
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.2);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
 }
 
 .input-label {

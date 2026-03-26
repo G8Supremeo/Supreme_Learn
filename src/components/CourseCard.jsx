@@ -33,7 +33,7 @@ export function CourseCard({ course }) {
         }
         .course-card:hover {
           transform: translateY(-5px);
-          box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+          box-shadow: 0 15px 35px rgba(14, 165, 233, 0.2);
         }
         .card-image {
           height: 180px;

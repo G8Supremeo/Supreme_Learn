@@ -261,7 +261,7 @@ export function Login() {
           width: 85px;
           height: 85px;
           flex-shrink: 0;
-          filter: drop-shadow(0 4px 8px rgba(255, 77, 109, 0.15));
+          filter: drop-shadow(0 4px 8px rgba(14, 165, 233, 0.15));
         }
         .supreme-text {
           font-size: 2.6rem;
@@ -322,7 +322,7 @@ export function Login() {
         .input-field:focus {
           background: #ffffff;
           border-color: var(--accent-primary, #ff4d6d);
-          box-shadow: 0 0 0 4px rgba(255, 77, 109, 0.15);
+          box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
         }
 
         /* Primary Call to Action Button */
@@ -334,7 +334,7 @@ export function Login() {
           font-size: 1rem;
           font-weight: 600;
           background: linear-gradient(135deg, #ff4d6d 0%, #ff7ea5 100%);
-          box-shadow: 0 8px 20px rgba(255, 77, 109, 0.25);
+          box-shadow: 0 8px 20px rgba(14, 165, 233, 0.25);
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           border: none;
           color: white;
@@ -346,7 +346,7 @@ export function Login() {
         }
         .login-btn:hover {
           transform: translateY(-2px);
-          box-shadow: 0 12px 28px rgba(255, 77, 109, 0.35);
+          box-shadow: 0 12px 28px rgba(14, 165, 233, 0.35);
           filter: brightness(1.05);
         }
         .login-btn:active {
@@ -410,9 +410,9 @@ export function Login() {
           font-size: 0.95rem;
         }
         .alert-danger {
-          background: rgba(255, 77, 109, 0.1);
+          background: rgba(14, 165, 233, 0.1);
           color: #e5383b;
-          border: 1px solid rgba(255, 77, 109, 0.2);
+          border: 1px solid rgba(14, 165, 233, 0.2);
         }
         .alert-success {
           background: rgba(45, 106, 79, 0.1);

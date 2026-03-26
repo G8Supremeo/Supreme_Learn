@@ -127,7 +127,7 @@ export function CourseDetail() {
         }
         .badge {
           display: inline-block;
-          background: rgba(255, 77, 109, 0.15);
+          background: rgba(14, 165, 233, 0.15);
           color: var(--accent-primary);
           padding: 0.25rem 0.75rem;
           border-radius: 20px;
@@ -220,7 +220,7 @@ export function CourseDetail() {
           gap: 1rem;
         }
         .lesson-number {
-          background: rgba(255, 77, 109, 0.1);
+          background: rgba(14, 165, 233, 0.1);
           color: var(--accent-primary);
           width: 32px;
           height: 32px;

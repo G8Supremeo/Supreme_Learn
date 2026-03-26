@@ -1,4 +1,4 @@
-# SuPreMe University - Premium AI E-Learning Platform
+# SupreMify - Premium AI E-Learning Platform
 
 Welcome to the official repository for **SuPreMe University**. This application replaces the generic RosyLearn application...g advanced custom hooks, React Router v6, Context API for state management, and an integrated Mock RAG AI Chatbot. Designed with a premium "Rosy" aesthetic featuring glassmorphism and modern UI/UX patterns.
 

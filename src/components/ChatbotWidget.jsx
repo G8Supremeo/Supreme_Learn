@@ -106,7 +106,7 @@ export function ChatbotWidget() {
           background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
           color: white;
           border: none;
-          box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+          box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
           cursor: pointer;
           display: flex;
           align-items: center;
@@ -153,7 +153,7 @@ export function ChatbotWidget() {
 
         .chatbot-header {
           padding: 1rem 1.5rem;
-          background: rgba(255, 77, 109, 0.1);
+          background: rgba(14, 165, 233, 0.1);
           border-bottom: 1px solid var(--glass-border);
           display: flex;
           justify-content: space-between;
@@ -195,7 +195,7 @@ export function ChatbotWidget() {
         }
 
         .icon-btn-close:hover {
-          background: rgba(255, 77, 109, 0.15);
+          background: rgba(14, 165, 233, 0.15);
           color: var(--accent-primary);
         }
 

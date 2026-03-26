@@ -140,7 +140,7 @@ export function Profile() {
           background: #ffffff;
           object-fit: cover;
           margin-bottom: 0.5rem;
-          box-shadow: 0 8px 24px rgba(255, 77, 109, 0.2);
+          box-shadow: 0 8px 24px rgba(14, 165, 233, 0.2);
         }
         .profile-header h2 {
           font-size: 1.8rem;
@@ -179,7 +179,7 @@ export function Profile() {
         }
         .input-field:focus {
           border-color: var(--accent-primary);
-          box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.15);
+          box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
         }
         .form-actions {
           margin-top: 1.5rem;
