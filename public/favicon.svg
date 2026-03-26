@@ -35,7 +35,7 @@
   </g>
 
   <!-- Base Brand Text -->
-  <text x="50" y="86" 
+  <text x="50" y="76" 
         font-family="Outfit, system-ui, sans-serif" 
         font-weight="700" 
         font-size="14" 
