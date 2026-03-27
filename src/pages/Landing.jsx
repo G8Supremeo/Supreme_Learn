@@ -74,9 +74,23 @@ export function Landing() {
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const handleNewsletter = (e) => {
+  const handleNewsletter = async (e) => {
     e.preventDefault();
     if (!newsletterEmail.trim()) return;
+
+    // Save to localStorage immediately
+    const existing = JSON.parse(localStorage.getItem('supremify_newsletter') || '[]');
+    if (!existing.includes(newsletterEmail.toLowerCase())) {
+      existing.push(newsletterEmail.toLowerCase());
+      localStorage.setItem('supremify_newsletter', JSON.stringify(existing));
+    }
+
+    // Also try to save to Supabase (graceful — won't break if table doesn't exist)
+    try {
+      const { supabase } = await import('../lib/supabase');
+      await supabase.from('newsletter_subscribers').insert({ email: newsletterEmail.toLowerCase() });
+    } catch (_) { /* table may not exist yet */ }
+
     setNewsletterSent(true);
     setNewsletterEmail('');
     setTimeout(() => setNewsletterSent(false), 4000);
