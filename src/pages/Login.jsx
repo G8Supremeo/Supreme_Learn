@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../hooks/useNotification';
 import { LogIn, UserPlus } from 'lucide-react';
@@ -86,15 +86,17 @@ export function Login() {
       <div className="glow-orb orb-2"></div>
       <div className="glass-panel login-panel animate-fade-in">
         <div className="login-header">
-          <div className="supreme-logo-wrapper">
-            <img src="/favicon.svg" alt="Supreme University Logo" className="brand-icon" />
-            <div className="supreme-text">
-              <span className="logo-su">Su</span>
-              <span className="logo-pre">Pre</span>
-              <span className="logo-me">Me</span>
-              <span className="logo-learning">University</span>
+          <Link to="/" className="supreme-logo-link">
+            <div className="supreme-logo-wrapper">
+              <img src="/favicon.svg" alt="Supreme University Logo" className="brand-icon" />
+              <div className="supreme-text">
+                <span className="logo-su">Su</span>
+                <span className="logo-pre">Pre</span>
+                <span className="logo-me">Me</span>
+                <span className="logo-learning">University</span>
+              </div>
             </div>
-          </div>
+          </Link>
           <h1>{isSignUP ? 'Create an Account' : 'Welcome Back'}</h1>
           <p>{isSignUP ? 'Join our elite AI landscape platform' : 'Sign in to jump back into your ML courses'}</p>
         </div>
@@ -249,6 +251,14 @@ export function Login() {
         /* Typography Header */
         .login-header {
           text-align: center;
+        }
+        .supreme-logo-link {
+          text-decoration: none;
+          display: inline-block;
+          transition: transform 0.3s ease;
+        }
+        .supreme-logo-link:hover {
+          transform: scale(1.02);
         }
         .supreme-logo-wrapper {
           display: flex;
