@@ -42,11 +42,12 @@ function AnimatedCounter({ end, suffix = '', duration = 2000 }) {
 }
 
 /* ───── Section wrapper with scroll reveal ───── */
-function RevealSection({ children, className = '', delay = 0 }) {
+function RevealSection({ children, className = '', delay = 0, id }) {
   const [ref, isVisible] = useScrollReveal();
   return (
     <section
       ref={ref}
+      id={id}
       className={`${className} reveal-section ${isVisible ? 'revealed' : ''}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
@@ -58,12 +59,28 @@ function RevealSection({ children, className = '', delay = 0 }) {
 export function Landing() {
   const { isAuthenticated, loading } = useAuth();
   const [scrolled, setScrolled] = useState(false);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterSent, setNewsletterSent] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  const smoothScroll = (e, targetId) => {
+    e.preventDefault();
+    const el = document.getElementById(targetId);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const handleNewsletter = (e) => {
+    e.preventDefault();
+    if (!newsletterEmail.trim()) return;
+    setNewsletterSent(true);
+    setNewsletterEmail('');
+    setTimeout(() => setNewsletterSent(false), 4000);
+  };
 
   if (loading) {
     return (
@@ -101,9 +118,9 @@ export function Landing() {
             <span className="nav-brand-text">SupreMify</span>
           </Link>
           <div className="nav-links-landing">
-            <a href="#features" className="nav-link-landing">Features</a>
-            <a href="#courses" className="nav-link-landing">Courses</a>
-            <a href="#testimonials" className="nav-link-landing">Reviews</a>
+            <a href="#features" onClick={(e) => smoothScroll(e, 'features')} className="nav-link-landing">Features</a>
+            <a href="#courses" onClick={(e) => smoothScroll(e, 'courses')} className="nav-link-landing">Courses</a>
+            <a href="#testimonials" onClick={(e) => smoothScroll(e, 'testimonials')} className="nav-link-landing">Reviews</a>
           </div>
           <div className="nav-cta-group">
             <Link to="/login" className="nav-login-btn">Sign In</Link>
@@ -149,7 +166,7 @@ export function Landing() {
             <Link to="/login" className="btn btn-primary hero-btn-primary">
               <Rocket size={18} /> Start Learning for Free
             </Link>
-            <a href="#courses" className="btn hero-btn-ghost">
+            <a href="#courses" onClick={(e) => smoothScroll(e, 'courses')} className="btn hero-btn-ghost">
               Explore Courses <ArrowRight size={16} />
             </a>
           </div>
@@ -297,17 +314,17 @@ export function Landing() {
             </div>
             <p className="footer-desc">The premium AI & ML learning platform engineered for professionals who build the future.</p>
             <div className="footer-socials">
-              <a href="#" className="social-link" aria-label="Website"><Globe size={18} /></a>
-              <a href="#" className="social-link" aria-label="LinkedIn"><Briefcase size={18} /></a>
-              <a href="#" className="social-link" aria-label="Community"><MessageCircle size={18} /></a>
+              <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="social-link" aria-label="Back to top"><Globe size={18} /></a>
+              <a href="#features" onClick={(e) => smoothScroll(e, 'features')} className="social-link" aria-label="Features"><Briefcase size={18} /></a>
+              <a href="#courses" onClick={(e) => smoothScroll(e, 'courses')} className="social-link" aria-label="Courses"><MessageCircle size={18} /></a>
             </div>
           </div>
 
           <div className="footer-links-col">
             <h4>Platform</h4>
-            <a href="#features">Features</a>
-            <a href="#courses">Courses</a>
-            <a href="#testimonials">Reviews</a>
+            <a href="#features" onClick={(e) => smoothScroll(e, 'features')}>Features</a>
+            <a href="#courses" onClick={(e) => smoothScroll(e, 'courses')}>Courses</a>
+            <a href="#testimonials" onClick={(e) => smoothScroll(e, 'testimonials')}>Reviews</a>
             <Link to="/login">Sign In</Link>
           </div>
 
@@ -322,10 +339,11 @@ export function Landing() {
           <div className="footer-links-col">
             <h4>Stay Updated</h4>
             <p className="newsletter-text">Get notified about new courses and AI breakthroughs.</p>
-            <div className="newsletter-form">
-              <input type="email" placeholder="your@email.com" className="newsletter-input" />
-              <button className="newsletter-btn"><Mail size={16} /></button>
-            </div>
+            <form className="newsletter-form" onSubmit={handleNewsletter}>
+              <input type="email" placeholder="your@email.com" className="newsletter-input" value={newsletterEmail} onChange={(e) => setNewsletterEmail(e.target.value)} required />
+              <button type="submit" className="newsletter-btn"><Mail size={16} /></button>
+            </form>
+            {newsletterSent && <p className="newsletter-success">✓ Subscribed successfully!</p>}
           </div>
         </div>
 
@@ -897,6 +915,13 @@ export function Landing() {
           transition: opacity 0.3s;
         }
         .newsletter-btn:hover { opacity: 0.9; }
+        .newsletter-success {
+          margin-top: 0.5rem;
+          font-size: 0.85rem;
+          color: var(--success);
+          font-weight: 600;
+          animation: fadeIn 0.4s ease;
+        }
         .footer-bottom {
           max-width: 1200px; margin: 3rem auto 0;
           padding: 1.5rem 0;
