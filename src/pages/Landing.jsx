@@ -60,6 +60,8 @@ export function Landing() {
   const { isAuthenticated, loading } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterFirst, setNewsletterFirst] = useState('');
+  const [newsletterLast, setNewsletterLast] = useState('');
   const [newsletterSent, setNewsletterSent] = useState(false);
 
   useEffect(() => {
@@ -76,23 +78,31 @@ export function Landing() {
 
   const handleNewsletter = async (e) => {
     e.preventDefault();
-    if (!newsletterEmail.trim()) return;
+    if (!newsletterEmail.trim() || !newsletterFirst.trim() || !newsletterLast.trim()) return;
 
-    // Save to localStorage immediately
+    const entry = { firstName: newsletterFirst.trim(), lastName: newsletterLast.trim(), email: newsletterEmail.toLowerCase().trim() };
+
+    // Save to localStorage
     const existing = JSON.parse(localStorage.getItem('supremify_newsletter') || '[]');
-    if (!existing.includes(newsletterEmail.toLowerCase())) {
-      existing.push(newsletterEmail.toLowerCase());
+    if (!existing.some(e => e.email === entry.email)) {
+      existing.push(entry);
       localStorage.setItem('supremify_newsletter', JSON.stringify(existing));
     }
 
-    // Also try to save to Supabase (graceful — won't break if table doesn't exist)
+    // Also try to save to Supabase
     try {
       const { supabase } = await import('../lib/supabase');
-      await supabase.from('newsletter_subscribers').insert({ email: newsletterEmail.toLowerCase() });
+      await supabase.from('newsletter_subscribers').insert({
+        first_name: entry.firstName,
+        last_name: entry.lastName,
+        email: entry.email
+      });
     } catch (_) { /* table may not exist yet */ }
 
     setNewsletterSent(true);
     setNewsletterEmail('');
+    setNewsletterFirst('');
+    setNewsletterLast('');
     setTimeout(() => setNewsletterSent(false), 4000);
   };
 
@@ -350,12 +360,18 @@ export function Landing() {
             <Link to="/login">GANs & Diffusion</Link>
           </div>
 
-          <div className="footer-links-col">
+          <div className="footer-links-col footer-newsletter-col">
             <h4>Stay Updated</h4>
             <p className="newsletter-text">Get notified about new courses and AI breakthroughs.</p>
-            <form className="newsletter-form" onSubmit={handleNewsletter}>
-              <input type="email" placeholder="your@email.com" className="newsletter-input" value={newsletterEmail} onChange={(e) => setNewsletterEmail(e.target.value)} required />
-              <button type="submit" className="newsletter-btn"><Mail size={16} /></button>
+            <form className="newsletter-form-v2" onSubmit={handleNewsletter}>
+              <div className="newsletter-name-row">
+                <input type="text" placeholder="First name" className="newsletter-input" value={newsletterFirst} onChange={(e) => setNewsletterFirst(e.target.value)} required />
+                <input type="text" placeholder="Last name" className="newsletter-input" value={newsletterLast} onChange={(e) => setNewsletterLast(e.target.value)} required />
+              </div>
+              <div className="newsletter-email-row">
+                <input type="email" placeholder="your@email.com" className="newsletter-input" value={newsletterEmail} onChange={(e) => setNewsletterEmail(e.target.value)} required />
+                <button type="submit" className="newsletter-btn"><Mail size={16} /> Subscribe</button>
+              </div>
             </form>
             {newsletterSent && <p className="newsletter-success">✓ Subscribed successfully!</p>}
           </div>
@@ -911,22 +927,38 @@ export function Landing() {
           color: var(--text-secondary); font-size: 0.85rem;
           margin-bottom: 0.75rem; line-height: 1.5;
         }
-        .newsletter-form {
+        .newsletter-form-v2 {
+          display: flex; flex-direction: column; gap: 0.5rem;
+        }
+        .newsletter-name-row {
+          display: flex; gap: 0.5rem;
+        }
+        .newsletter-email-row {
           display: flex; gap: 0;
           border: 1px solid var(--glass-border); border-radius: 12px;
           overflow: hidden;
         }
+        .newsletter-name-row .newsletter-input {
+          border: 1px solid var(--glass-border); border-radius: 10px;
+        }
         .newsletter-input {
-          flex: 1; padding: 0.75rem 1rem;
+          flex: 1; padding: 0.65rem 0.85rem;
           border: none; background: var(--bg-secondary);
           color: var(--text-primary); font-family: inherit;
           font-size: 0.85rem; outline: none;
         }
+        .newsletter-input:focus {
+          border-color: var(--accent-primary);
+          box-shadow: 0 0 0 2px rgba(14,165,233,0.15);
+        }
         .newsletter-btn {
-          padding: 0.75rem 1rem;
+          padding: 0.65rem 1rem;
           background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
           border: none; color: #fff; cursor: pointer;
           transition: opacity 0.3s;
+          display: flex; align-items: center; gap: 0.4rem;
+          font-family: inherit; font-size: 0.8rem; font-weight: 600;
+          white-space: nowrap;
         }
         .newsletter-btn:hover { opacity: 0.9; }
         .newsletter-success {
