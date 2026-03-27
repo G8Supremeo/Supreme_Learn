@@ -4,7 +4,8 @@ import { useCourses } from '../context/CourseContext';
 import { useProgress } from '../context/ProgressContext';
 import { ProgressBar } from '../components/ProgressBar';
 import { QuizWidget } from '../components/QuizWidget';
-import { CheckCircle, Circle, ArrowLeft, Tv } from 'lucide-react';
+import { ExamWidget } from '../components/ExamWidget';
+import { CheckCircle, Circle, ArrowLeft, Tv, GraduationCap } from 'lucide-react';
 
 // Simple Markdown Renderer for the Reading Material
 const MarkdownText = ({ text }) => {
@@ -39,6 +40,8 @@ export function LessonPlayer() {
   const lesson = course.lessons[currentLessonIndex];
   const isCompleted = isLessonCompleted(courseId, lessonId);
   const progress = getCourseProgressPercentage(courseId);
+  const isLastLesson = currentLessonIndex === course.lessons.length - 1;
+  const allLessonsComplete = course.lessons.every(l => isLessonCompleted(courseId, l.id));
 
   const handleQuizPass = () => {
     if (!isCompleted) markLessonComplete(courseId, lessonId);
@@ -128,6 +131,30 @@ export function LessonPlayer() {
           
           {lesson.quiz && (
             <QuizWidget quiz={lesson.quiz} onPass={handleQuizPass} />
+          )}
+
+          {/* Course Exam — shown on last lesson */}
+          {isLastLesson && course.exam && (
+            <div className="course-exam-section">
+              <hr className="divider" />
+              <div className="exam-intro">
+                <GraduationCap size={28} />
+                <div>
+                  <h3>Course Final Exam</h3>
+                  <p>{allLessonsComplete 
+                    ? `You've completed all lessons! Take the ${course.exam.length}-question exam to earn your certificate.`
+                    : `Complete all lessons to unlock the ${course.exam.length}-question final exam.`
+                  }</p>
+                </div>
+              </div>
+              {allLessonsComplete && (
+                <ExamWidget 
+                  exam={course.exam} 
+                  courseTitle={course.title}
+                  onPass={() => {}}
+                />
+              )}
+            </div>
           )}
         </div>
       </section>
@@ -298,6 +325,29 @@ export function LessonPlayer() {
           height: 1px;
           background: var(--glass-border);
           margin: 2.5rem 0;
+        }
+        .course-exam-section {
+          margin-top: 1rem;
+        }
+        .exam-intro {
+          display: flex;
+          align-items: flex-start;
+          gap: 1rem;
+          padding: 1.5rem;
+          background: rgba(14, 165, 233, 0.05);
+          border-radius: 12px;
+          border: 1px solid rgba(14, 165, 233, 0.15);
+          color: var(--accent-primary);
+        }
+        .exam-intro h3 {
+          color: var(--text-primary);
+          margin-bottom: 0.3rem;
+          font-size: 1.2rem;
+        }
+        .exam-intro p {
+          color: var(--text-secondary);
+          font-size: 0.9rem;
+          line-height: 1.5;
         }
       `}</style>
     </div>

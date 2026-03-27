@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SupreMify: Custom Hooks Presentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/monokai.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    .reveal { background: #020617; }
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+      text-transform: none; font-family: 'Outfit', sans-serif;
+      font-weight: 800; color: #f8fafc; letter-spacing: -0.5px;
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;
+    }
+    .reveal p, .reveal li { font-family: 'Inter', sans-serif; color: #cbd5e1; font-size: 1.7rem; line-height: 1.6; }
+    .reveal ul { margin-top: 0.5rem; }
+    .reveal li { margin-bottom: 0.6rem; }
+    .reveal pre { width: 100%; margin: 1rem auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 12px; }
+    .reveal pre code { padding: 1.2rem; font-size: 1.15rem; line-height: 1.45; border-radius: 12px; border: 1px solid rgba(14, 165, 233, 0.2); }
+    .reveal code { color: #38bdf8; background: rgba(14,165,233,0.1); padding: 0.15rem 0.4rem; border-radius: 6px; }
+    .chip {
+      display: inline-block; padding: 0.3rem 0.9rem; border-radius: 999px;
+      font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600; margin: 0.2rem;
+    }
+    .chip-blue { background: rgba(14,165,233,0.15); color: #38bdf8; border: 1px solid rgba(14,165,233,0.3); }
+    .chip-green { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
+    .chip-purple { background: rgba(139,92,246,0.15); color: #a78bfa; border: 1px solid rgba(139,92,246,0.3); }
+    .logo { width: 130px; filter: drop-shadow(0 0 20px rgba(16,185,129,0.4)); }
+    .tag { font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; color: #64748b; font-weight: 600; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <!-- 0. Title -->
+  <section>
+    <img src="./public/favicon.svg" class="logo" alt="SupreMify Logo"/>
+    <h1>SupreMify</h1>
+    <h3><span class="text-gradient">Custom React Hooks</span> Architecture</h3>
+    <p style="font-size:1.3rem; font-style:italic; margin-top:1rem;">Competition Presentation — Deep Technical Review</p>
+  </section>
+
+  <!-- 1. What is a Custom Hook? -->
+  <section>
+    <h2 class="text-gradient">What is a Custom Hook?</h2>
+    <p>A custom hook is simply a regular JavaScript function whose name <strong>starts with <code>use</code></strong>. It allows you to extract, share, and reuse complex stateful logic across many components — without duplicating code or building class hierarchies.</p>
+    <br>
+    <p class="fragment">SupreMify ships <strong>3 custom hooks</strong> that power the entire application:</p>
+    <p class="fragment">
+      <span class="chip chip-green">useLocalStorage</span>
+      <span class="chip chip-blue">useNotification</span>
+      <span class="chip chip-purple">useAuth (AuthContext)</span>
+    </p>
+  </section>
+
+  <!-- 2. Native Hooks Used (foundation) -->
+  <section>
+    <h2 class="text-gradient">Native Hooks Powering Our Custom Hooks</h2>
+    <p style="font-size:1.4rem;">Before the custom hooks, these native React primitives are composed inside them:</p>
+    <ul>
+      <li class="fragment"><code>useState</code> — Stores mutable reactive state.</li>
+      <li class="fragment"><code>useEffect</code> — Runs side-effects (subscriptions, timers).</li>
+      <li class="fragment"><code>useCallback</code> — Memoises functions to prevent unnecessary re-creation on each render.</li>
+      <li class="fragment"><code>useContext</code> — Reads from a shared React Context tree.</li>
+      <li class="fragment"><code>createContext</code> — Initialises the global state container.</li>
+    </ul>
+  </section>
+
+  <!-- 3. Hook 1: useLocalStorage -->
+  <section>
+    <p class="tag">Custom Hook #1</p>
+    <h2 class="text-gradient">useLocalStorage</h2>
+    <p style="font-size:1.4rem;">Persists React state directly into the browser's <code>localStorage</code>. Data survives page refreshes and tab closures automatically — without manually calling <code>localStorage.getItem</code> everywhere.</p>
+  </section>
+
+  <section>
+    <h3>useLocalStorage — Source Code</h3>
+    <pre><code class="language-js" data-trim>
+import { useState } from 'react';
+
+export function useLocalStorage(key, initialValue) {
+  // Reads existing localStorage value on first render
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      // Parse stored JSON or fall back to the initial value
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      return initialValue;
+    }
+  });
+
+  const setValue = (value) => {
+    try {
+      // Supports both plain values AND updater functions
+      const valueToStore = value instanceof Function
+        ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      // Sync React state AND actual localStorage simultaneously
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return [storedValue, setValue]; // Same API as useState
+}
+    </code></pre>
+  </section>
+
+  <section>
+    <h3>useLocalStorage — How It's Used</h3>
+    <p style="font-size:1.4rem;">Any component drops in <code>useLocalStorage</code> exactly like <code>useState</code> — but data automatically survives a full page reload.</p>
+    <pre><code class="language-jsx" data-trim>
+// Storing the user's active Dark Mode preference
+const [theme, setTheme] = useLocalStorage('theme', 'light');
+
+// Toggle it — React state AND localStorage both update
+return (
+  &lt;button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}&gt;
+    Switch to {theme === 'light' ? 'Dark' : 'Light'} Mode
+  &lt;/button&gt;
+);
+    </code></pre>
+    <p class="fragment" style="font-size:1.2rem;"><em>Primitive used inside:</em> <code>useState</code> with a lazy initialiser function.</p>
+  </section>
+
+  <!-- 4. Hook 2: useNotification -->
+  <section>
+    <p class="tag">Custom Hook #2</p>
+    <h2 class="text-gradient">useNotification</h2>
+    <p style="font-size:1.4rem;">Manages the full lifecycle of temporary toast notification banners — triggering them, scheduling their auto-dismissal via a timer, and clearing them early if needed — all in one reusable unit.</p>
+  </section>
+
+  <section>
+    <h3>useNotification — Source Code</h3>
+    <pre><code class="language-js" data-trim>
+import { useState, useCallback } from 'react';
+
+export function useNotification() {
+  const [notification, setNotification] = useState(null);
+
+  // useCallback memoises this function — it is NOT recreated
+  // on every single render, which prevents infinite effect loops
+  const showNotification = useCallback((message, type = 'success', duration = 3000) => {
+    setNotification({ message, type });
+    
+    // Automatically fires a timer to erase the notification
+    setTimeout(() => {
+      setNotification(null);
+    }, duration);
+  }, []); // Empty dep array — function identity is STABLE forever
+
+  const hideNotification = useCallback(() => {
+    setNotification(null);
+  }, []);
+
+  return { notification, showNotification, hideNotification };
+}
+    </code></pre>
+  </section>
+
+  <section>
+    <h3>useNotification — How It's Used</h3>
+    <p style="font-size:1.4rem;">Used inside <strong>Profile.jsx</strong> to emit a branded success flash when the user saves their profile changes to Supabase.</p>
+    <pre><code class="language-jsx" data-trim>
+import { useNotification } from '../hooks/useNotification';
+
+export function Profile() {
+  const { notification, showNotification } = useNotification();
+  
+  const handleSave = async () => {
+    await updateProfile({ full_name, phone, avatar_url });
+    
+    // Fire a 3-second auto-dismissing success banner
+    showNotification('Profile Updated Successfully!', 'success', 3000);
+  };
+
+  return (
+    &lt;&gt;
+      {notification && (
+        &lt;div className={`alert alert-${notification.type}`}&gt;
+          {notification.message}
+        &lt;/div&gt;
+      )}
+      &lt;button onClick={handleSave}&gt;Save Changes&lt;/button&gt;
+    &lt;/&gt;
+  );
+}
+    </code></pre>
+    <p class="fragment" style="font-size:1.2rem;"><em>Primitives used inside:</em> <code>useState</code> + <code>useCallback</code> for stable function identity.</p>
+  </section>
+
+  <!-- 5. Hook 3: useAuth (AuthContext) -->
+  <section>
+    <p class="tag">Custom Hook #3</p>
+    <h2 class="text-gradient">useAuth (AuthContext)</h2>
+    <p style="font-size:1.4rem;">The most powerful custom hook. Wraps a full React <code>Context</code> provider around the entire application to broadcast the Supabase live user session, Google OAuth methods, and profile updates down <strong>without prop-drilling</strong>.</p>
+  </section>
+
+  <section>
+    <h3>useAuth — Architecture</h3>
+    <pre><code class="language-js" data-trim>
+// AuthContext.jsx — The Global Session Engine
+const AuthContext = createContext();
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Subscribe to Supabase: fires on login, logout, token refresh
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
+    );
+    return () => subscription.unsubscribe(); // Cleanup on unmount!
+  }, []);
+
+  // Google OAuth launcher
+  const signInWithGoogle = async () => {
+    await supabase.auth.signInWithOAuth({ provider: 'google' });
+  };
+
+  return (
+    &lt;AuthContext.Provider value={{ user, loading, signInWithGoogle, signOut }}&gt;
+      {children}
+    &lt;/AuthContext.Provider&gt;
+  );
+}
+
+// The Custom Hook wrapper — clean API for any component to consume
+export function useAuth() {
+  return useContext(AuthContext);
+}
+    </code></pre>
+  </section>
+
+  <section>
+    <h3>useAuth — How It's Used Everywhere</h3>
+    <p style="font-size:1.4rem;">Any component anywhere in the tree calls <code>useAuth()</code> to instantly receive the live session — no props needed.</p>
+    <pre><code class="language-jsx" data-trim>
+// Navbar.jsx — Rendering the user avatar and logout button
+const { user, signOut } = useAuth();
+
+// Landing.jsx — Auto-redirecting logged-in users to the dashboard
+const { isAuthenticated, loading } = useAuth();
+if (isAuthenticated) return &lt;Navigate to="/dashboard" replace /&gt;;
+
+// PrivateRoute.jsx — Protecting every authenticated page
+const { user, loading } = useAuth();
+if (!user) return &lt;Navigate to="/login" replace /&gt;;
+
+// Profile.jsx — Reading and saving Supabase user metadata
+const { user, updateProfile } = useAuth();
+    </code></pre>
+    <p class="fragment" style="font-size:1.2rem;"><em>Primitives used inside:</em> <code>createContext</code>, <code>useContext</code>, <code>useState</code>, <code>useEffect</code>.</p>
+  </section>
+
+  <!-- 6. Hook Composition Summary -->
+  <section>
+    <h2 class="text-gradient">Hook Composition Map</h2>
+    <p style="font-size:1.4rem; margin-bottom:1rem;">How React's native hooks are composed inside our custom ones:</p>
+    <table style="font-size:1.3rem; width:100%; border-collapse:collapse;">
+      <thead>
+        <tr style="color:#38bdf8; border-bottom: 1px solid rgba(14,165,233,0.3);">
+          <th style="padding:0.8rem; text-align:left;">Custom Hook</th>
+          <th style="padding:0.8rem; text-align:left;">Primitives Inside</th>
+          <th style="padding:0.8rem; text-align:left;">Role</th>
+        </tr>
+      </thead>
+      <tbody style="color:#cbd5e1;">
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <td style="padding:0.8rem;"><span class="chip chip-green">useLocalStorage</span></td>
+          <td style="padding:0.8rem;"><code>useState</code></td>
+          <td style="padding:0.8rem;">Persistent browser state</td>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <td style="padding:0.8rem;"><span class="chip chip-blue">useNotification</span></td>
+          <td style="padding:0.8rem;"><code>useState</code>, <code>useCallback</code></td>
+          <td style="padding:0.8rem;">Auto-dismissing toast banners</td>
+        </tr>
+        <tr>
+          <td style="padding:0.8rem;"><span class="chip chip-purple">useAuth</span></td>
+          <td style="padding:0.8rem;"><code>createContext</code>, <code>useContext</code>, <code>useState</code>, <code>useEffect</code></td>
+          <td style="padding:0.8rem;">Global Supabase session engine</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 7. Conclusion -->
+  <section>
+    <h2 class="text-gradient">Conclusion</h2>
+    <p>SupreMify demonstrates that powerful, production-grade platforms can be built with a small, deliberately composed set of custom React hooks rather than heavy state management libraries like Redux.</p>
+    <br>
+    <p class="fragment">Three custom hooks orchestrate <strong>persistent storage, real-time notifications, and a live global authentication pipeline</strong> — all from pure, composable React functions.</p>
+    <br>
+    <h3 class="fragment">Thank You.</h3>
+  </section>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    transition: 'concave',
+    backgroundTransition: 'slide',
+    plugins: [ RevealHighlight ]
+  });
+</script>
+</body>
+</html>

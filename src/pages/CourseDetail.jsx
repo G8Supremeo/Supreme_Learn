@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useCourses } from '../context/CourseContext';
 import { useProgress } from '../context/ProgressContext';
 import { useNotification } from '../hooks/useNotification';
-import { PlayCircle, Award, Clock, Users, ArrowLeft } from 'lucide-react';
+import { PlayCircle, Award, Clock, Users, ArrowLeft, GraduationCap } from 'lucide-react';
 
 export function CourseDetail() {
   const { courseId } = useParams();
@@ -52,6 +52,7 @@ export function CourseDetail() {
             <span><Clock size={16}/> {course.duration}</span>
             <span><Users size={16}/> {course.instructor}</span>
             <span><PlayCircle size={16}/> {course.lessons.length} Lessons</span>
+              {course.exam && <span><GraduationCap size={16}/> {course.exam.length}-Q Exam</span>}
           </div>
 
           <div className="cta-container">
