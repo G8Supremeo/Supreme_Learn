@@ -462,6 +462,17 @@ export function Login() {
           20% { opacity: 1; }
           100% { opacity: 0.2; }
         }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+          .login-panel { padding: 2rem 1.5rem; gap: 1.5rem; border-radius: 20px; margin: 1rem; }
+          .brand-icon { width: 60px; height: 60px; }
+          .supreme-text { font-size: 1.8rem; }
+          .login-header h1 { font-size: 1.6rem; }
+          .login-header p { font-size: 0.85rem; }
+          .input-field { padding: 12px; font-size: 0.95rem; }
+          .login-btn { height: 48px; }
+        }
       `}</style>
     </div>
   );

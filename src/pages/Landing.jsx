@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { BookOpen, BrainCircuit, Rocket, Activity, Zap, GraduationCap, Code2, Award, Users, PlayCircle, Star, ArrowRight, Mail, Globe, Briefcase, MessageCircle, ChevronRight, Shield, Cpu, FlaskConical } from 'lucide-react';
+import { BookOpen, BrainCircuit, Rocket, Activity, Zap, GraduationCap, Code2, Award, Users, PlayCircle, Star, ArrowRight, Mail, Globe, Briefcase, MessageCircle, ChevronRight, Shield, Cpu, FlaskConical, Menu, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { INITIAL_COURSES } from '../data/mockData';
 
@@ -63,6 +63,7 @@ export function Landing() {
   const [newsletterFirst, setNewsletterFirst] = useState('');
   const [newsletterLast, setNewsletterLast] = useState('');
   const [newsletterSent, setNewsletterSent] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -137,20 +138,32 @@ export function Landing() {
       {/* ═══════ LANDING NAVBAR ═══════ */}
       <nav className={`landing-nav ${scrolled ? 'nav-scrolled' : ''}`}>
         <div className="nav-inner">
-          <Link to="/" className="nav-brand">
+          <Link to="/" className="nav-brand" onClick={() => setIsMobileMenuOpen(false)}>
             <img src="/favicon.svg" alt="SupreMify" className="nav-logo" />
             <span className="nav-brand-text">SupreMify</span>
           </Link>
-          <div className="nav-links-landing">
-            <a href="#features" onClick={(e) => smoothScroll(e, 'features')} className="nav-link-landing">Features</a>
-            <a href="#courses" onClick={(e) => smoothScroll(e, 'courses')} className="nav-link-landing">Courses</a>
-            <a href="#testimonials" onClick={(e) => smoothScroll(e, 'testimonials')} className="nav-link-landing">Reviews</a>
-          </div>
-          <div className="nav-cta-group">
-            <Link to="/login" className="nav-login-btn">Sign In</Link>
-            <Link to="/login" className="btn btn-primary nav-signup-btn">
-              <Rocket size={16} /> Get Started Free
-            </Link>
+
+          {/* Hamburger Toggle */}
+          <button 
+            className="mobile-toggle" 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle Navigation"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+
+          <div className={`nav-actions-wrap ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+            <div className="nav-links-landing">
+              <a href="#features" onClick={(e) => { smoothScroll(e, 'features'); setIsMobileMenuOpen(false); }} className="nav-link-landing">Features</a>
+              <a href="#courses" onClick={(e) => { smoothScroll(e, 'courses'); setIsMobileMenuOpen(false); }} className="nav-link-landing">Courses</a>
+              <a href="#testimonials" onClick={(e) => { smoothScroll(e, 'testimonials'); setIsMobileMenuOpen(false); }} className="nav-link-landing">Reviews</a>
+            </div>
+            <div className="nav-cta-group">
+              <Link to="/login" className="nav-login-btn" onClick={() => setIsMobileMenuOpen(false)}>Sign In</Link>
+              <Link to="/login" className="btn btn-primary nav-signup-btn" onClick={() => setIsMobileMenuOpen(false)}>
+                <Rocket size={16} /> Get Started Free
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
@@ -455,16 +468,22 @@ export function Landing() {
           background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
           -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .nav-links-landing {
-          display: flex; gap: 2rem;
-        }
-        .nav-link-landing {
-          color: var(--text-secondary); font-weight: 500; text-decoration: none;
-          transition: color 0.3s; font-size: 0.95rem;
-        }
         .nav-link-landing:hover { color: var(--accent-primary); }
+        .mobile-toggle {
+          display: none;
+          background: none; border: none;
+          color: var(--text-primary); cursor: pointer;
+          padding: 5px;
+        }
+        .nav-actions-wrap {
+          display: flex; align-items: center; gap: 2rem; flex: 1;
+        }
+        .nav-links-landing {
+          display: flex; gap: 2rem; margin-left: auto; margin-right: 2rem;
+        }
         .nav-cta-group {
           display: flex; align-items: center; gap: 1rem;
+        }
         }
         .nav-login-btn {
           color: var(--text-secondary); font-weight: 600; text-decoration: none;
@@ -967,6 +986,55 @@ export function Landing() {
           color: var(--success);
           font-weight: 600;
           animation: fadeIn 0.4s ease;
+        }
+
+        /* ═══════ MOBILE RESPONSIVE ═══════ */
+        @media (max-width: 900px) {
+          .nav-inner { padding: 0.5rem 1rem; }
+          .nav-brand-text { font-size: 1.2rem; }
+          .mobile-toggle { display: block; }
+          .nav-actions-wrap {
+            position: absolute; top: calc(100% + 10px); left: 0; right: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px); border-radius: 16px;
+            padding: 2rem; flex-direction: column; gap: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border: 1px solid var(--glass-border);
+            opacity: 0; pointer-events: none; transform: translateY(-10px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          [data-theme='dark'] .nav-actions-wrap { background: rgba(15,23,42,0.95); }
+          .nav-actions-wrap.mobile-open {
+            opacity: 1; pointer-events: auto; transform: translateY(0);
+          }
+          .nav-links-landing {
+            flex-direction: column; align-items: center; gap: 1.5rem;
+            margin: 0; width: 100%;
+          }
+          .nav-cta-group {
+            flex-direction: column; width: 100%; gap: 1rem;
+          }
+          .nav-cta-group .btn, .nav-cta-group a { width: 100%; text-align: center; }
+          
+          .hero-title { font-size: 2.8rem; }
+          .hero-description { font-size: 1.1rem; }
+          .stats-grid { flex-direction: column; gap: 1.5rem; padding: 2rem; }
+          .stat-divider { width: 40px; height: 1px; }
+        }
+
+        @media (max-width: 600px) {
+          .newsletter-name-row { flex-direction: column; gap: 0.5rem; }
+          .newsletter-email-row {
+            flex-direction: column; border: none; background: transparent; gap: 0.5rem; overflow: visible;
+          }
+          .newsletter-email-row .newsletter-input {
+            border: 1px solid var(--glass-border); border-radius: 10px;
+          }
+          .newsletter-email-row .newsletter-btn {
+            border-radius: 10px; justify-content: center;
+          }
+          .hero-actions { flex-direction: column; width: 100%; }
+          .hero-actions .btn { width: 100%; }
         }
         .footer-bottom {
           max-width: 1200px; margin: 3rem auto 0;

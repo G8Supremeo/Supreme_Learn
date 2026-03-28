@@ -226,6 +226,21 @@ export function Navbar() {
           font-size: 0.85rem;
         }
         
+        /* Responsive Mobile Styles */
+        @media (max-width: 768px) {
+          .navbar { margin: 1rem; padding: 0.75rem 1rem; }
+          .nav-links { gap: 1rem; }
+          .user-name { display: none; }
+          .user-profile-btn { padding: 0.25rem; }
+        }
+        
+        @media (max-width: 480px) {
+          .logo { display: none; }
+          .nav-link span { display: none; }
+          .nav-links { gap: 1.5rem; }
+          .navbar-brand { gap: 0; }
+        }
+
         /* Theme toggle icon logic */
         [data-theme='dark'] .moon-icon { display: none; }
         [data-theme='light'] .sun-icon, :root:not([data-theme]) .sun-icon { display: none; }
