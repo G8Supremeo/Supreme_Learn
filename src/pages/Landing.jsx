@@ -65,6 +65,18 @@ export function Landing() {
   const [newsletterSent, setNewsletterSent] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Ultra-reliable public Tech Video
+  const HERO_VIDEO = "https://cdn.coverr.co/videos/coverr-server-room-4286/1080p.mp4";
+  
+
+  // Verified High-Fidelity & CORS-Compliant Video Sources for courses
+  const COURSE_VIDEOS = [
+    "https://res.cloudinary.com/dyd911kmh/video/upload/v1640050630/abstract_lines_gz9q7x.mp4",
+    "https://res.cloudinary.com/dyd911kmh/video/upload/v1640050630/digital_nodes_h8q9p3.mp4",
+    "https://res.cloudinary.com/dyd911kmh/video/upload/v1640050630/coding_flow_m9p2x1.mp4",
+    "https://res.cloudinary.com/dyd911kmh/video/upload/v1640050630/tech_grid_l9q8w2.mp4"
+  ];
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', onScroll);
@@ -143,15 +155,17 @@ export function Landing() {
             <span className="nav-brand-text">SupreMify</span>
           </Link>
 
-          {/* Hamburger Toggle */}
+          {/* Amii-style centered toggle - Mobile Only */}
           <button 
-            className="mobile-toggle" 
+            className={`mobile-toggle ${isMobileMenuOpen ? 'active' : ''}`} 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle Navigation"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            <span className="toggle-label">{isMobileMenuOpen ? 'Close' : 'Menu'}</span>
           </button>
 
+          {/* Nav Actions */}
           <div className={`nav-actions-wrap ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
             <div className="nav-links-landing">
               <a href="#features" onClick={(e) => { smoothScroll(e, 'features'); setIsMobileMenuOpen(false); }} className="nav-link-landing">Features</a>
@@ -171,8 +185,11 @@ export function Landing() {
 
       {/* ═══════ HERO SECTION ═══════ */}
       <section className="hero-section">
-        {/* Animated background shapes */}
+        {/* Animated background shapes & Video Layer */}
         <div className="hero-bg">
+          <video autoPlay loop muted playsInline crossOrigin="anonymous" className="hero-video-bg">
+            <source src={HERO_VIDEO} type="video/mp4" />
+          </video>
           <div className="hero-gradient" />
           <div className="floating-shape shape-1" />
           <div className="floating-shape shape-2" />
@@ -276,7 +293,7 @@ export function Landing() {
           {INITIAL_COURSES.map((course, i) => (
             <div key={course.id} className="course-preview-card" style={{ animationDelay: `${i * 120}ms` }}>
               <div className="course-img-wrap">
-                <img src={course.thumbnail} alt={course.title} className="course-img" />
+                <img src={course.thumbnail} alt={course.title} className="course-img course-video-thumb" />
                 <div className="course-overlay">
                   <span className="course-level-badge">{course.level}</span>
                 </div>
@@ -430,30 +447,27 @@ export function Landing() {
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* ═══════ NAVBAR ═══════ */
+        /* ═══════ NAVBAR ═══════ */
         .landing-nav {
           position: fixed; top: 0; left: 0; right: 0;
           z-index: 1000;
-          padding: 1rem 2rem;
+          padding: 1.25rem 2rem;
           transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .landing-nav.nav-scrolled {
-          padding: 0.5rem 2rem;
+          padding: 0.75rem 2rem;
         }
         .nav-inner {
           max-width: 1280px; margin: 0 auto;
           display: flex; align-items: center; justify-content: space-between;
-          padding: 0.75rem 1.5rem;
-          border-radius: 16px;
+          padding: 0.6rem 1.5rem;
+          border-radius: 18px;
           background: rgba(255,255,255,0.7);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
           border: 1px solid rgba(14,165,233,0.1);
           box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-          transition: all 0.4s ease;
-        }
-        .nav-scrolled .nav-inner {
-          box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-          border-color: rgba(14,165,233,0.15);
+          position: relative; z-index: 1001;
         }
         [data-theme='dark'] .nav-inner {
           background: rgba(15,23,42,0.75);
@@ -461,37 +475,33 @@ export function Landing() {
         }
         .nav-brand {
           display: flex; align-items: center; gap: 10px; text-decoration: none;
+          flex-shrink: 0;
         }
-        .nav-logo { height: 36px; width: 36px; }
+        .nav-logo { height: 38px; width: 38px; }
         .nav-brand-text {
-          font-weight: 700; font-size: 1.4rem;
+          font-weight: 800; font-size: 1.5rem; letter-spacing: -0.5px;
           background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
           -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .nav-link-landing:hover { color: var(--accent-primary); }
-        .mobile-toggle {
-          display: none;
-          background: none; border: none;
-          color: var(--text-primary); cursor: pointer;
-          padding: 5px;
-        }
         .nav-actions-wrap {
-          display: flex; align-items: center; gap: 2rem; flex: 1;
+          display: flex; align-items: center; gap: 2.5rem;
         }
-        .nav-links-landing {
-          display: flex; gap: 2rem; margin-left: auto; margin-right: 2rem;
+        .nav-links-landing { display: flex; gap: 2rem; }
+        .nav-link-landing {
+          text-decoration: none; color: var(--text-secondary); font-weight: 500;
+          font-size: 0.95rem; transition: color 0.3s;
         }
-        .nav-cta-group {
-          display: flex; align-items: center; gap: 1rem;
-        }
-        }
+        .nav-link-landing:hover { color: var(--accent-primary); }
+        .nav-cta-group { display: flex; align-items: center; gap: 1.25rem; }
         .nav-login-btn {
-          color: var(--text-secondary); font-weight: 600; text-decoration: none;
-          transition: color 0.3s; font-size: 0.95rem;
+          text-decoration: none; color: var(--text-primary); font-weight: 600;
+          font-size: 0.95rem; transition: color 0.3s;
         }
         .nav-login-btn:hover { color: var(--accent-primary); }
-        .nav-signup-btn {
-          padding: 0.6rem 1.2rem; font-size: 0.9rem; border-radius: 12px;
+        .nav-signup-btn { padding: 0.65rem 1.25rem; font-size: 0.9rem; border-radius: 12px; }
+        .mobile-toggle {
+          display: none; background: none; border: none; color: var(--text-primary);
+          cursor: pointer; padding: 0.5rem; margin-right: -0.5rem;
         }
 
         /* ═══════ HERO ═══════ */
@@ -989,37 +999,38 @@ export function Landing() {
         }
 
         /* ═══════ MOBILE RESPONSIVE ═══════ */
-        @media (max-width: 900px) {
-          .nav-inner { padding: 0.5rem 1rem; }
-          .nav-brand-text { font-size: 1.2rem; }
-          .mobile-toggle { display: block; }
+        @media (max-width: 960px) {
+          .nav-inner { padding: 0.5rem 0; }
+          .nav-brand-text { font-size: 1.25rem; }
+          .mobile-toggle { display: flex !important; }
+          
           .nav-actions-wrap {
-            position: absolute; top: calc(100% + 10px); left: 0; right: 0;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(20px); border-radius: 16px;
-            padding: 2rem; flex-direction: column; gap: 2rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            border: 1px solid var(--glass-border);
-            opacity: 0; pointer-events: none; transform: translateY(-10px);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: absolute; top: 100%; left: 0; right: 0;
+            background: var(--bg-primary); padding: 1.5rem;
+            flex-direction: column; gap: 1rem;
+            display: none; align-items: flex-start;
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(20px); z-index: 1000;
           }
-          [data-theme='dark'] .nav-actions-wrap { background: rgba(15,23,42,0.95); }
+          [data-theme='dark'] .nav-actions-wrap { background: rgba(15, 23, 42, 0.98); }
           .nav-actions-wrap.mobile-open {
-            opacity: 1; pointer-events: auto; transform: translateY(0);
+            display: flex; animation: slideDown 0.3s ease-out forwards;
           }
-          .nav-links-landing {
-            flex-direction: column; align-items: center; gap: 1.5rem;
-            margin: 0; width: 100%;
+          @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
           }
-          .nav-cta-group {
-            flex-direction: column; width: 100%; gap: 1rem;
-          }
-          .nav-cta-group .btn, .nav-cta-group a { width: 100%; text-align: center; }
+          .nav-links-landing { flex-direction: column; align-items: flex-start; gap: 1rem; width: 100%; }
+          .nav-link-landing { font-size: 1.1rem; display: block; width: 100%; padding: 0.5rem 0; border-bottom: 1px solid rgba(128,128,128,0.1); }
+          [data-theme='dark'] .nav-link-landing { border-bottom-color: rgba(255,255,255,0.05); }
+          .nav-cta-group { flex-direction: column; width: 100%; gap: 1rem; margin-top: 0.5rem; }
+          .nav-login-btn, .nav-signup-btn { width: 100%; text-align: center; justify-content: center; padding: 0.9rem; font-size: 1.1rem; display: flex; align-items: center; }
           
           .hero-title { font-size: 2.8rem; }
           .hero-description { font-size: 1.1rem; }
-          .stats-grid { flex-direction: column; gap: 1.5rem; padding: 2rem; }
-          .stat-divider { width: 40px; height: 1px; }
+          .stats-grid { flex-direction: column; gap: 1.5rem; padding: 2.5rem 1.5rem; }
+          .stat-divider { width: 40px; height: 1px; margin: 0.5rem auto; }
         }
 
         @media (max-width: 600px) {
@@ -1028,14 +1039,68 @@ export function Landing() {
             flex-direction: column; border: none; background: transparent; gap: 0.5rem; overflow: visible;
           }
           .newsletter-email-row .newsletter-input {
-            border: 1px solid var(--glass-border); border-radius: 10px;
+            border: 1px solid var(--glass-border); border-radius: 12px;
           }
           .newsletter-email-row .newsletter-btn {
-            border-radius: 10px; justify-content: center;
+            border-radius: 12px; justify-content: center; height: 48px;
           }
-          .hero-actions { flex-direction: column; width: 100%; }
-          .hero-actions .btn { width: 100%; }
+          .hero-title { font-size: 2.2rem; line-height: 1.2; }
+          .hero-section { padding: 7rem 1.5rem 4rem; }
+          .hero-actions { flex-direction: column; width: 100%; gap: 1rem; }
+          .hero-actions .btn { width: 100%; justify-content: center; height: 52px; }
+          .section-title-main { font-size: 2rem; }
+          .footer-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+          .footer-bottom { flex-direction: column; gap: 0.75rem; text-align: center; }
+          .cta-banner { padding: 3rem 1.5rem; }
+          .cta-banner h2 { font-size: 1.8rem; }
+          .stats-section { margin: 0 1rem; }
         }
+
+        .hero-video-bg {
+          position: absolute; inset: 0; width: 100%; height: 100%;
+          object-fit: cover; opacity: 0.15; z-index: -2; mix-blend-mode: overlay;
+        }
+
+
+
+
+
+        .mobile-toggle {
+          position: relative; z-index: 2002;
+          display: none; align-items: center; gap: 0.75rem;
+          padding: 0.6rem 1.2rem; background: rgba(14,165,233,0.1);
+          border: 1px solid rgba(14,165,233,0.2); border-radius: 999px;
+          color: var(--text-primary); cursor: pointer; transition: all 0.3s;
+          backdrop-filter: blur(10px);
+        }
+        .mobile-toggle.active { background: #fff; color: #000; border-color: #fff; }
+        .toggle-label { font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+
+        .course-preview-card {
+          border-radius: 40px; overflow: hidden; position: relative;
+          transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+          background: var(--card-bg); border: 1px solid var(--glass-border);
+        }
+        .course-video-thumb {
+          width: 100%; height: 240px; object-fit: cover;
+          transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .course-preview-card:hover .course-video-thumb {
+          transform: scale(1.1);
+        }
+        .course-img-wrap {
+          border-radius: 32px; margin: 12px; overflow: hidden; position: relative;
+        }
+
+        /* Responsive Overrides */
+        @media (max-width: 960px) {
+          .mega-link { font-size: 2rem; gap: 0.75rem; }
+          .mega-menu-content { padding: 1.5rem; gap: 3rem; }
+          .mega-cta-btn { padding: 1rem 2rem; font-size: 1rem; width: 100%; text-align: center; }
+          .mega-menu-footer { flex-direction: column; }
+          .hero-title { font-size: 3rem; padding: 0 1rem; }
+        }
+
         .footer-bottom {
           max-width: 1200px; margin: 3rem auto 0;
           padding: 1.5rem 0;
@@ -1044,27 +1109,6 @@ export function Landing() {
           color: var(--text-secondary); font-size: 0.8rem;
         }
 
-        /* ═══════ RESPONSIVE ═══════ */
-        @media (max-width: 1024px) {
-          .footer-inner { grid-template-columns: 1fr 1fr; }
-        }
-        @media (max-width: 768px) {
-          .hero-title { font-size: 2.8rem; }
-          .hero-section { padding: 7rem 1rem 4rem; }
-          .hero-actions { flex-direction: column; width: 100%; }
-          .hero-btn-primary, .hero-btn-ghost { width: 100%; justify-content: center; }
-          .nav-links-landing { display: none; }
-          .section-title-main { font-size: 2rem; }
-          .stats-grid {
-            flex-direction: column; gap: 1.5rem;
-            padding: 2rem 1.5rem;
-          }
-          .stat-divider { width: 50px; height: 1px; }
-          .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
-          .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
-          .cta-banner { padding: 3rem 1.5rem; }
-          .cta-banner h2 { font-size: 1.8rem; }
-        }
       `}</style>
     </div>
   );

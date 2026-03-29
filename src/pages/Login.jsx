@@ -465,13 +465,21 @@ export function Login() {
 
         /* Mobile Adjustments */
         @media (max-width: 600px) {
-          .login-panel { padding: 2rem 1.5rem; gap: 1.5rem; border-radius: 20px; margin: 1rem; }
-          .brand-icon { width: 60px; height: 60px; }
-          .supreme-text { font-size: 1.8rem; }
-          .login-header h1 { font-size: 1.6rem; }
-          .login-header p { font-size: 0.85rem; }
+          .login-container { padding: 1rem; }
+          .login-panel { padding: 2.5rem 1.5rem; border-radius: 24px; gap: 1.5rem; margin: 0; }
+          .brand-icon { width: 65px; height: 65px; }
+          .supreme-text { font-size: 2rem; }
+          .login-header h1 { font-size: 1.7rem; }
+          .login-header p { font-size: 0.9rem; }
           .input-field { padding: 12px; font-size: 0.95rem; }
-          .login-btn { height: 48px; }
+          .login-btn { height: 48px; font-size: 0.95rem; }
+          .btn-social { padding: 12px; font-size: 0.9rem; }
+        }
+        @media (max-width: 480px) {
+          .brand-icon { width: 55px; height: 55px; }
+          .supreme-text { font-size: 1.8rem; }
+          .login-header h1 { font-size: 1.5rem; }
+          .login-header p { font-size: 0.85rem; }
         }
       `}</style>
     </div>

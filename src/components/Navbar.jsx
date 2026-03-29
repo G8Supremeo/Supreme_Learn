@@ -228,17 +228,19 @@ export function Navbar() {
         
         /* Responsive Mobile Styles */
         @media (max-width: 768px) {
-          .navbar { margin: 1rem; padding: 0.75rem 1rem; }
+          .navbar { margin: 0.5rem; padding: 0.75rem 1rem; border-radius: 12px; top: 0.5rem; }
           .nav-links { gap: 1rem; }
           .user-name { display: none; }
           .user-profile-btn { padding: 0.25rem; }
+          .nav-actions { gap: 0.75rem; }
         }
         
         @media (max-width: 480px) {
           .logo { display: none; }
-          .nav-link span { display: none; }
-          .nav-links { gap: 1.5rem; }
           .navbar-brand { gap: 0; }
+          .nav-links { gap: 1.25rem; }
+          .nav-link { font-size: 0.85rem; }
+          .nav-link svg { width: 20px; height: 20px; }
         }
 
         /* Theme toggle icon logic */
